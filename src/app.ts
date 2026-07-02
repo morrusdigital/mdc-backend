@@ -5,6 +5,7 @@ import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import routes from "./routes";
 import swaggerDocument from "./swagger.json";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
@@ -18,5 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", routes);
+
+// Global error handling middleware (must be registered last)
+app.use(errorHandler);
 
 export default app;

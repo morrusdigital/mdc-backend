@@ -11,9 +11,256 @@
       "description": "Development Server"
     }
   ],
+  "tags": [
+    {
+      "name": "General",
+      "description": "Endpoint umum sistem"
+    },
+    {
+      "name": "Portfolio",
+      "description": "Endpoint untuk manajemen portofolio/proyek"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Masukkan Token Admin (ADMIN_SECRET)."
+      }
+    },
+    "schemas": {
+      "GalleryItem": {
+        "type": "object",
+        "required": ["src", "alt", "caption"],
+        "properties": {
+          "src": { "type": "string", "example": "/uploads/image.png" },
+          "alt": { "type": "string", "example": "Screenshot aplikasi" },
+          "caption": { "type": "string", "example": "Halaman Utama" }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "example": "a4d3f58a-f2b1-419b-a01f-0e12f6723223" },
+          "slug": { "type": "string", "example": "jaladewa-champion" },
+          "name": { "type": "string", "example": "Jaladewa Champion" },
+          "client": { "type": "string", "example": "Pemerintah Kota" },
+          "year": { "type": "string", "example": "2026" },
+          "category": { "type": "string", "example": "Company Profile" },
+          "industry": { "type": "string", "example": "Pendidikan & Olahraga" },
+          "serviceType": { "type": "string", "example": "Attendance & Operational Management System" },
+          "summary": { "type": "string", "example": "Ringkasan proyek." },
+          "challenge": { "type": "string", "example": "Tantangan pengerjaan." },
+          "objective": { "type": "string", "example": "Tujuan proyek." },
+          "solution": { "type": "string", "example": "Solusi sistem." },
+          "outcome": { "type": "string", "example": "Hasil nyata." },
+          "deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["Jadwal latihan", "Invoice"]
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["React", "TypeScript", "Node.js"]
+          },
+          "thumbnailLabel": { "type": "string", "example": "JC" },
+          "thumbnailTone": { "type": "string", "example": "sky" },
+          "gallery": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/GalleryItem" }
+          },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-07-02T02:00:00.000Z" },
+          "updatedAt": { "type": "string", "format": "date-time", "example": "2026-07-02T02:00:00.000Z" }
+        }
+      },
+      "CreateProjectInput": {
+        "type": "object",
+        "required": [
+          "slug", "name", "client", "year", "category",
+          "industry", "serviceType", "summary", "challenge",
+          "objective", "solution", "outcome", "deliverables",
+          "technologies", "thumbnailLabel", "thumbnailTone", "gallery"
+        ],
+        "properties": {
+          "slug": { "type": "string", "example": "jaladewa-champion" },
+          "name": { "type": "string", "example": "Jaladewa Champion" },
+          "client": { "type": "string", "example": "Pemerintah Kota" },
+          "year": { "type": "string", "example": "2026" },
+          "category": { "type": "string", "example": "Company Profile" },
+          "industry": { "type": "string", "example": "Pendidikan & Olahraga" },
+          "serviceType": { "type": "string", "example": "Attendance & Operational Management System" },
+          "summary": { "type": "string", "example": "Ringkasan proyek." },
+          "challenge": { "type": "string", "example": "Tantangan pengerjaan." },
+          "objective": { "type": "string", "example": "Tujuan proyek." },
+          "solution": { "type": "string", "example": "Solusi sistem." },
+          "outcome": { "type": "string", "example": "Hasil nyata." },
+          "deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["Jadwal latihan", "Invoice"]
+          },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["React", "TypeScript", "Node.js"]
+          },
+          "thumbnailLabel": { "type": "string", "example": "JC" },
+          "thumbnailTone": { "type": "string", "example": "sky" },
+          "gallery": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/GalleryItem" }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["success", "message"],
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "message": { "type": "string", "example": "Pesan deskripsi error yang terjadi" }
+        }
+      },
+      "ValidationErrorResponse": {
+        "type": "object",
+        "required": ["success", "message", "errors"],
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "message": { "type": "string", "example": "Validation failed" },
+          "errors": {
+            "type": "object",
+            "additionalProperties": { "type": "string" },
+            "example": {
+              "slug": "Field 'slug' is required",
+              "name": "Field 'name' is required"
+            }
+          }
+        }
+      },
+      "HomeResponse": {
+        "type": "object",
+        "required": ["success", "message"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "MDC Backend API is running" }
+        }
+      },
+      "DbTestResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "PostgreSQL connected" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "now": { "type": "string", "example": "2026-07-02T01:51:47.000Z" }
+            }
+          }
+        }
+      },
+      "ProjectListResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "data": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Project" }
+          }
+        }
+      },
+      "ProjectResponse": {
+        "type": "object",
+        "required": ["success", "data"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "data": { "$ref": "#/components/schemas/Project" }
+        }
+      },
+      "ProjectCreateResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "Project created successfully" },
+          "data": { "$ref": "#/components/schemas/Project" }
+        }
+      },
+      "ProjectUpdateResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "Project updated successfully" },
+          "data": { "$ref": "#/components/schemas/Project" }
+        }
+      },
+      "ProjectDeleteResponse": {
+        "type": "object",
+        "required": ["success", "message"],
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string", "example": "Project deleted successfully" }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Validasi input gagal / parameter tidak valid",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ValidationErrorResponse" }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Token otorisasi hilang atau tidak disertakan",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Token otorisasi tidak valid / akses ditolak",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource/data yang diminta tidak ditemukan",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Terjadi konflik data (misalnya slug sudah terpakai)",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Terjadi kesalahan server internal",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      }
+    }
+  },
   "paths": {
     "/": {
       "get": {
+        "tags": ["General"],
         "summary": "Welcome Home",
         "description": "Mengembalikan status running dari API.",
         "responses": {
@@ -21,27 +268,17 @@
             "description": "API is running successfully",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "MDC Backend API is running"
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/HomeResponse" }
               }
             }
-          }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
         }
       }
     },
     "/db-test": {
       "get": {
+        "tags": ["General"],
         "summary": "Database Connection Test",
         "description": "Menguji koneksi database ke PostgreSQL.",
         "responses": {
@@ -49,34 +286,213 @@
             "description": "Koneksi database berhasil",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "PostgreSQL connected"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "now": {
-                          "type": "string",
-                          "example": "2026-07-02T01:51:47.000Z"
-                        }
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/DbTestResponse" }
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error / Koneksi gagal"
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/api/portfolio": {
+      "get": {
+        "tags": ["Portfolio"],
+        "summary": "Mendapatkan daftar proyek portofolio",
+        "description": "Mengambil semua data portofolio proyek publik.",
+        "responses": {
+          "200": {
+            "description": "Daftar portofolio berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectListResponse" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "tags": ["Portfolio"],
+        "summary": "Menambahkan portofolio baru (Admin)",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateProjectInput" }
+            }
           }
+        },
+        "responses": {
+          "201": {
+            "description": "Portofolio berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectCreateResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/api/portfolio/{slug}": {
+      "get": {
+        "tags": ["Portfolio"],
+        "summary": "Mendapatkan studi kasus detail portofolio",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Slug unik portofolio (e.g. jaladewa-champion)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail portofolio berhasil ditemukan",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/api/portfolio/{id}": {
+      "put": {
+        "tags": ["Portfolio"],
+        "summary": "Mengubah data portofolio secara penuh (Admin)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" },
+            "description": "ID UUID portofolio"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateProjectInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portofolio berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectUpdateResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "patch": {
+        "tags": ["Portfolio"],
+        "summary": "Mengubah sebagian data portofolio (Admin)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" },
+            "description": "ID UUID portofolio"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": { "type": "string" },
+                  "name": { "type": "string" },
+                  "client": { "type": "string" },
+                  "year": { "type": "string" },
+                  "category": { "type": "string" },
+                  "industry": { "type": "string" },
+                  "serviceType": { "type": "string" },
+                  "summary": { "type": "string" },
+                  "challenge": { "type": "string" },
+                  "objective": { "type": "string" },
+                  "solution": { "type": "string" },
+                  "outcome": { "type": "string" },
+                  "deliverables": { "type": "array", "items": { "type": "string" } },
+                  "technologies": { "type": "array", "items": { "type": "string" } },
+                  "thumbnailLabel": { "type": "string" },
+                  "thumbnailTone": { "type": "string" },
+                  "gallery": { "type": "array", "items": { "$ref": "#/components/schemas/GalleryItem" } }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portofolio berhasil diupdate sebagian",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectUpdateResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "tags": ["Portfolio"],
+        "summary": "Menghapus portofolio (Admin)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" },
+            "description": "ID UUID portofolio yang akan dihapus"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portofolio berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectDeleteResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
         }
       }
     }

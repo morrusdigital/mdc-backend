@@ -19,3 +19,29 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Project {
+  id             String   @id @default(uuid()) @db.Uuid
+  slug           String   @unique @db.VarChar(255)
+  name           String   @db.VarChar(255)
+  client         String   @db.VarChar(255)
+  year           String   @db.VarChar(10)
+  category       String   @db.VarChar(100)
+  industry       String   @db.VarChar(100)
+  serviceType    String   @map("service_type") @db.VarChar(255)
+  summary        String   @db.Text
+  challenge      String   @db.Text
+  objective      String   @db.Text
+  solution       String   @db.Text
+  outcome        String   @db.Text
+  deliverables   Json     // array of strings
+  technologies   Json     // array of strings
+  thumbnailLabel String   @map("thumbnail_label") @db.VarChar(10)
+  thumbnailTone  String   @map("thumbnail_tone") @db.VarChar(20)
+  gallery        Json     // array of { src: string, alt: string, caption: string }
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("projects")
+}
+
