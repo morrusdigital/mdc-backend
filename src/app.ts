@@ -5,7 +5,7 @@ import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import routes from "./routes";
 import swaggerDocument from "./swagger.json";
-import { errorHandler } from "./middlewares/error.middleware";
+import { errorHandler } from "./shared/middleware/error.middleware";
 
 const app = express();
 

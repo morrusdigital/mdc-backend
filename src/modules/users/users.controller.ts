@@ -1,8 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../shared/http/response";
-import { UsersService } from "./users.service";
+import { AssignRolesToUserUseCase } from "./use-cases/assign-roles-to-user.use-case";
+import { CreateUserUseCase } from "./use-cases/create-user.use-case";
+import { GetUserByIdUseCase } from "./use-cases/get-user-by-id.use-case";
+import { ListUsersUseCase } from "./use-cases/list-users.use-case";
+import { UpdateUserStatusUseCase } from "./use-cases/update-user-status.use-case";
+import { UpdateUserUseCase } from "./use-cases/update-user.use-case";
 
-const usersService = new UsersService();
+const listUsersUseCase = new ListUsersUseCase();
+const getUserByIdUseCase = new GetUserByIdUseCase();
+const createUserUseCase = new CreateUserUseCase();
+const updateUserUseCase = new UpdateUserUseCase();
+const updateUserStatusUseCase = new UpdateUserStatusUseCase();
+const assignRolesToUserUseCase = new AssignRolesToUserUseCase();
 const getId = (req: Request) => Number(req.params.id);
 
 export const listUsers = async (
@@ -11,7 +21,7 @@ export const listUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await usersService.listUsers();
+    const users = await listUsersUseCase.execute();
 
     sendSuccess(res, 200, "Users retrieved successfully", users);
   } catch (error) {
@@ -25,7 +35,7 @@ export const getUserById = async (
   next: NextFunction
 ) => {
   try {
-    const user = await usersService.getUserById(getId(req));
+    const user = await getUserByIdUseCase.execute(getId(req));
 
     sendSuccess(res, 200, "User retrieved successfully", user);
   } catch (error) {
@@ -39,7 +49,7 @@ export const createUser = async (
   next: NextFunction
 ) => {
   try {
-    const user = await usersService.createUser(req.body);
+    const user = await createUserUseCase.execute(req.body);
 
     sendSuccess(res, 201, "User created successfully", user);
   } catch (error) {
@@ -53,7 +63,7 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const user = await usersService.updateUser(
+    const user = await updateUserUseCase.execute(
       getId(req),
       req.body
     );
@@ -70,7 +80,7 @@ export const updateUserStatus = async (
   next: NextFunction
 ) => {
   try {
-    const user = await usersService.updateUserStatus(
+    const user = await updateUserStatusUseCase.execute(
       getId(req),
       req.body.isActive
     );
@@ -87,7 +97,7 @@ export const assignUserRoles = async (
   next: NextFunction
 ) => {
   try {
-    const user = await usersService.assignRoles(
+    const user = await assignRolesToUserUseCase.execute(
       getId(req),
       req.body.roleIds
     );

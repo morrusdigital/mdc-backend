@@ -1,8 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { sendSuccess } from "../../shared/http/response";
-import { AuthService } from "./auth.service";
+import { GetCurrentAdminProfileUseCase } from "./use-cases/get-current-admin-profile.use-case";
+import { LoginAdminUseCase } from "./use-cases/login-admin.use-case";
+import { LogoutAdminUseCase } from "./use-cases/logout-admin.use-case";
+import { RefreshAdminTokenUseCase } from "./use-cases/refresh-admin-token.use-case";
 
-const authService = new AuthService();
+const loginAdminUseCase = new LoginAdminUseCase();
+const refreshAdminTokenUseCase = new RefreshAdminTokenUseCase();
+const logoutAdminUseCase = new LogoutAdminUseCase();
+const getCurrentAdminProfileUseCase = new GetCurrentAdminProfileUseCase();
 
 export const login = async (
   req: Request,
@@ -10,7 +16,7 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const result = await authService.login(req.body.email, req.body.password);
+    const result = await loginAdminUseCase.execute(req.body.email, req.body.password);
 
     sendSuccess(res, 200, "Admin login successful", result);
   } catch (error) {
@@ -24,7 +30,7 @@ export const refresh = async (
   next: NextFunction
 ) => {
   try {
-    const result = await authService.refresh(req.body.refreshToken);
+    const result = await refreshAdminTokenUseCase.execute(req.body.refreshToken);
 
     sendSuccess(res, 200, "Token refreshed successfully", result);
   } catch (error) {
@@ -38,7 +44,7 @@ export const logout = async (
   next: NextFunction
 ) => {
   try {
-    await authService.logout(req.authUser!.sessionId);
+    await logoutAdminUseCase.execute(req.authUser!.sessionId);
 
     sendSuccess(res, 200, "Logout successful");
   } catch (error) {
@@ -52,7 +58,7 @@ export const me = async (
   next: NextFunction
 ) => {
   try {
-    const profile = await authService.me(req.authUser!.id);
+    const profile = await getCurrentAdminProfileUseCase.execute(req.authUser!.id);
 
     sendSuccess(res, 200, "Current admin profile retrieved", profile);
   } catch (error) {

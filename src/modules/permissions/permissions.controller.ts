@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../shared/http/response";
-import { PermissionsService } from "./permissions.service";
+import { ListPermissionsUseCase } from "./use-cases/list-permissions.use-case";
 
-const permissionsService = new PermissionsService();
+const listPermissionsUseCase = new ListPermissionsUseCase();
 
 export const listPermissions = async (
   _req: Request,
@@ -10,7 +10,7 @@ export const listPermissions = async (
   next: NextFunction
 ) => {
   try {
-    const permissions = await permissionsService.listPermissions();
+    const permissions = await listPermissionsUseCase.execute();
 
     sendSuccess(res, 200, "Permissions retrieved successfully", permissions);
   } catch (error) {

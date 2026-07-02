@@ -7,11 +7,18 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../controllers/project.controller";
+} from "../modules/projects/projects.controller";
+import {
+  createProjectSchema,
+  patchProjectSchema,
+  putProjectSchema,
+  projectIdParamsSchema,
+} from "../modules/projects/projects.schemas";
 import {
   requireAuth,
   requirePermission,
 } from "../shared/middleware/auth.middleware";
+import { validateRequest } from "../shared/validation/validate";
 
 const router = Router();
 
@@ -24,24 +31,28 @@ router.post(
   "/projects",
   requireAuth(),
   requirePermission("projects.create"),
+  validateRequest(createProjectSchema),
   createProject
 );
 router.put(
   "/projects/:id",
   requireAuth(),
   requirePermission("projects.update"),
+  validateRequest(putProjectSchema),
   updateProject
 );
 router.patch(
   "/projects/:id",
   requireAuth(),
   requirePermission("projects.update"),
+  validateRequest(patchProjectSchema),
   updateProject
 );
 router.delete(
   "/projects/:id",
   requireAuth(),
   requirePermission("projects.delete"),
+  validateRequest(projectIdParamsSchema),
   deleteProject
 );
 

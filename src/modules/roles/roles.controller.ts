@@ -1,8 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import { sendSuccess } from "../../shared/http/response";
-import { RolesService } from "./roles.service";
+import { AssignPermissionsToRoleUseCase } from "./use-cases/assign-permissions-to-role.use-case";
+import { CreateRoleUseCase } from "./use-cases/create-role.use-case";
+import { DeleteRoleUseCase } from "./use-cases/delete-role.use-case";
+import { GetRoleByIdUseCase } from "./use-cases/get-role-by-id.use-case";
+import { ListRolesUseCase } from "./use-cases/list-roles.use-case";
+import { UpdateRoleUseCase } from "./use-cases/update-role.use-case";
 
-const rolesService = new RolesService();
+const listRolesUseCase = new ListRolesUseCase();
+const getRoleByIdUseCase = new GetRoleByIdUseCase();
+const createRoleUseCase = new CreateRoleUseCase();
+const updateRoleUseCase = new UpdateRoleUseCase();
+const deleteRoleUseCase = new DeleteRoleUseCase();
+const assignPermissionsToRoleUseCase = new AssignPermissionsToRoleUseCase();
 const getId = (req: Request) => Number(req.params.id);
 
 export const listRoles = async (
@@ -11,7 +21,7 @@ export const listRoles = async (
   next: NextFunction
 ) => {
   try {
-    const roles = await rolesService.listRoles();
+    const roles = await listRolesUseCase.execute();
 
     sendSuccess(res, 200, "Roles retrieved successfully", roles);
   } catch (error) {
@@ -25,7 +35,7 @@ export const getRoleById = async (
   next: NextFunction
 ) => {
   try {
-    const role = await rolesService.getRoleById(getId(req));
+    const role = await getRoleByIdUseCase.execute(getId(req));
 
     sendSuccess(res, 200, "Role retrieved successfully", role);
   } catch (error) {
@@ -39,7 +49,7 @@ export const createRole = async (
   next: NextFunction
 ) => {
   try {
-    const role = await rolesService.createRole(req.body);
+    const role = await createRoleUseCase.execute(req.body);
 
     sendSuccess(res, 201, "Role created successfully", role);
   } catch (error) {
@@ -53,7 +63,7 @@ export const updateRole = async (
   next: NextFunction
 ) => {
   try {
-    const role = await rolesService.updateRole(
+    const role = await updateRoleUseCase.execute(
       getId(req),
       req.body
     );
@@ -70,7 +80,7 @@ export const deleteRole = async (
   next: NextFunction
 ) => {
   try {
-    await rolesService.deleteRole(getId(req));
+    await deleteRoleUseCase.execute(getId(req));
 
     sendSuccess(res, 200, "Role deleted successfully");
   } catch (error) {
@@ -84,7 +94,7 @@ export const assignRolePermissions = async (
   next: NextFunction
 ) => {
   try {
-    const role = await rolesService.assignPermissions(
+    const role = await assignPermissionsToRoleUseCase.execute(
       getId(req),
       req.body.permissionIds
     );
