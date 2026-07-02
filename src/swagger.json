@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "MDC Backend API Docs",
-    "version": "1.0.0",
-    "description": "Dokumentasi API untuk Morrus Digital Connecting menggunakan file JSON statis."
+    "version": "2.0.0",
+    "description": "Dokumentasi API statis untuk Morrus Digital Connecting CMS backend."
   },
   "servers": [
     {
@@ -17,8 +17,32 @@
       "description": "Endpoint umum sistem"
     },
     {
-      "name": "Portfolio",
-      "description": "Endpoint untuk manajemen portofolio/proyek"
+      "name": "Public Portfolio",
+      "description": "Endpoint publik untuk data portfolio"
+    },
+    {
+      "name": "Admin Auth",
+      "description": "Autentikasi admin CMS"
+    },
+    {
+      "name": "Admin Users",
+      "description": "Manajemen user admin CMS"
+    },
+    {
+      "name": "Admin Roles",
+      "description": "Manajemen role admin CMS"
+    },
+    {
+      "name": "Admin Permissions",
+      "description": "Daftar permission admin CMS"
+    },
+    {
+      "name": "Admin Projects",
+      "description": "Manajemen project di area admin CMS"
+    },
+    {
+      "name": "Forms",
+      "description": "Fondasi endpoint public forms"
     }
   ],
   "components": {
@@ -26,91 +50,22 @@
       "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Masukkan Token Admin (ADMIN_SECRET)."
+        "bearerFormat": "JWT",
+        "description": "Masukkan JWT access token admin."
       }
     },
     "schemas": {
-      "GalleryItem": {
+      "SuccessEnvelope": {
         "type": "object",
-        "required": ["src", "alt", "caption"],
+        "required": ["success", "message"],
         "properties": {
-          "src": { "type": "string", "example": "/uploads/image.png" },
-          "alt": { "type": "string", "example": "Screenshot aplikasi" },
-          "caption": { "type": "string", "example": "Halaman Utama" }
-        }
-      },
-      "Project": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "example": "a4d3f58a-f2b1-419b-a01f-0e12f6723223" },
-          "slug": { "type": "string", "example": "jaladewa-champion" },
-          "name": { "type": "string", "example": "Jaladewa Champion" },
-          "client": { "type": "string", "example": "Pemerintah Kota" },
-          "year": { "type": "string", "example": "2026" },
-          "category": { "type": "string", "example": "Company Profile" },
-          "industry": { "type": "string", "example": "Pendidikan & Olahraga" },
-          "serviceType": { "type": "string", "example": "Attendance & Operational Management System" },
-          "summary": { "type": "string", "example": "Ringkasan proyek." },
-          "challenge": { "type": "string", "example": "Tantangan pengerjaan." },
-          "objective": { "type": "string", "example": "Tujuan proyek." },
-          "solution": { "type": "string", "example": "Solusi sistem." },
-          "outcome": { "type": "string", "example": "Hasil nyata." },
-          "deliverables": {
-            "type": "array",
-            "items": { "type": "string" },
-            "example": ["Jadwal latihan", "Invoice"]
+          "success": {
+            "type": "boolean",
+            "example": true
           },
-          "technologies": {
-            "type": "array",
-            "items": { "type": "string" },
-            "example": ["React", "TypeScript", "Node.js"]
-          },
-          "thumbnailLabel": { "type": "string", "example": "JC" },
-          "thumbnailTone": { "type": "string", "example": "sky" },
-          "gallery": {
-            "type": "array",
-            "items": { "$ref": "#/components/schemas/GalleryItem" }
-          },
-          "createdAt": { "type": "string", "format": "date-time", "example": "2026-07-02T02:00:00.000Z" },
-          "updatedAt": { "type": "string", "format": "date-time", "example": "2026-07-02T02:00:00.000Z" }
-        }
-      },
-      "CreateProjectInput": {
-        "type": "object",
-        "required": [
-          "slug", "name", "client", "year", "category",
-          "industry", "serviceType", "summary", "challenge",
-          "objective", "solution", "outcome", "deliverables",
-          "technologies", "thumbnailLabel", "thumbnailTone", "gallery"
-        ],
-        "properties": {
-          "slug": { "type": "string", "example": "jaladewa-champion" },
-          "name": { "type": "string", "example": "Jaladewa Champion" },
-          "client": { "type": "string", "example": "Pemerintah Kota" },
-          "year": { "type": "string", "example": "2026" },
-          "category": { "type": "string", "example": "Company Profile" },
-          "industry": { "type": "string", "example": "Pendidikan & Olahraga" },
-          "serviceType": { "type": "string", "example": "Attendance & Operational Management System" },
-          "summary": { "type": "string", "example": "Ringkasan proyek." },
-          "challenge": { "type": "string", "example": "Tantangan pengerjaan." },
-          "objective": { "type": "string", "example": "Tujuan proyek." },
-          "solution": { "type": "string", "example": "Solusi sistem." },
-          "outcome": { "type": "string", "example": "Hasil nyata." },
-          "deliverables": {
-            "type": "array",
-            "items": { "type": "string" },
-            "example": ["Jadwal latihan", "Invoice"]
-          },
-          "technologies": {
-            "type": "array",
-            "items": { "type": "string" },
-            "example": ["React", "TypeScript", "Node.js"]
-          },
-          "thumbnailLabel": { "type": "string", "example": "JC" },
-          "thumbnailTone": { "type": "string", "example": "sky" },
-          "gallery": {
-            "type": "array",
-            "items": { "$ref": "#/components/schemas/GalleryItem" }
+          "message": {
+            "type": "string",
+            "example": "Request berhasil diproses"
           }
         }
       },
@@ -118,92 +73,810 @@
         "type": "object",
         "required": ["success", "message"],
         "properties": {
-          "success": { "type": "boolean", "example": false },
-          "message": { "type": "string", "example": "Pesan deskripsi error yang terjadi" }
-        }
-      },
-      "ValidationErrorResponse": {
-        "type": "object",
-        "required": ["success", "message", "errors"],
-        "properties": {
-          "success": { "type": "boolean", "example": false },
-          "message": { "type": "string", "example": "Validation failed" },
-          "errors": {
-            "type": "object",
-            "additionalProperties": { "type": "string" },
-            "example": {
-              "slug": "Field 'slug' is required",
-              "name": "Field 'name' is required"
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid email address"
+                }
+              }
             }
           }
         }
       },
       "HomeResponse": {
-        "type": "object",
-        "required": ["success", "message"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "message": { "type": "string", "example": "MDC Backend API is running" }
-        }
-      },
-      "DbTestResponse": {
-        "type": "object",
-        "required": ["success", "message", "data"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "message": { "type": "string", "example": "PostgreSQL connected" },
-          "data": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
             "type": "object",
             "properties": {
-              "now": { "type": "string", "example": "2026-07-02T01:51:47.000Z" }
+              "message": {
+                "type": "string",
+                "example": "MDC Backend API is running"
+              }
+            }
+          }
+        ]
+      },
+      "DbTestResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "PostgreSQL connected"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "now": {
+                    "type": "string",
+                    "example": "2026-07-02T01:51:47.000Z"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GalleryItem": {
+        "type": "object",
+        "required": ["src", "alt", "caption"],
+        "properties": {
+          "src": {
+            "type": "string",
+            "example": "/uploads/image.png"
+          },
+          "alt": {
+            "type": "string",
+            "example": "Screenshot aplikasi"
+          },
+          "caption": {
+            "type": "string",
+            "example": "Halaman utama"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "a4d3f58a-f2b1-419b-a01f-0e12f6723223"
+          },
+          "slug": {
+            "type": "string",
+            "example": "jaladewa-champion"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jaladewa Champion"
+          },
+          "client": {
+            "type": "string",
+            "example": "Pemerintah Kota"
+          },
+          "year": {
+            "type": "string",
+            "example": "2026"
+          },
+          "category": {
+            "type": "string",
+            "example": "Company Profile"
+          },
+          "industry": {
+            "type": "string",
+            "example": "Pendidikan & Olahraga"
+          },
+          "serviceType": {
+            "type": "string",
+            "example": "Attendance & Operational Management System"
+          },
+          "summary": {
+            "type": "string",
+            "example": "Ringkasan proyek."
+          },
+          "challenge": {
+            "type": "string",
+            "example": "Tantangan pengerjaan."
+          },
+          "objective": {
+            "type": "string",
+            "example": "Tujuan proyek."
+          },
+          "solution": {
+            "type": "string",
+            "example": "Solusi sistem."
+          },
+          "outcome": {
+            "type": "string",
+            "example": "Hasil nyata."
+          },
+          "deliverables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["Jadwal latihan", "Invoice"]
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["React", "TypeScript", "Node.js"]
+          },
+          "thumbnailLabel": {
+            "type": "string",
+            "example": "JC"
+          },
+          "thumbnailTone": {
+            "type": "string",
+            "example": "sky"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GalleryItem"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProjectCreateInput": {
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "client",
+          "year",
+          "category",
+          "industry",
+          "serviceType",
+          "summary",
+          "challenge",
+          "objective",
+          "solution",
+          "outcome",
+          "deliverables",
+          "technologies",
+          "thumbnailLabel",
+          "thumbnailTone",
+          "gallery"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "client": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "serviceType": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "solution": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "deliverables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "thumbnailLabel": {
+            "type": "string"
+          },
+          "thumbnailTone": {
+            "type": "string"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GalleryItem"
             }
           }
         }
       },
-      "ProjectListResponse": {
+      "ProjectPatchInput": {
         "type": "object",
-        "required": ["success", "data"],
         "properties": {
-          "success": { "type": "boolean", "example": true },
-          "data": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "client": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "serviceType": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "solution": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "deliverables": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Project" }
+            "items": {
+              "type": "string"
+            }
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "thumbnailLabel": {
+            "type": "string"
+          },
+          "thumbnailTone": {
+            "type": "string"
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GalleryItem"
+            }
           }
         }
       },
+      "Permission": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "code": {
+            "type": "string",
+            "example": "users.read"
+          },
+          "name": {
+            "type": "string",
+            "example": "Users Read"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Read admin users"
+          },
+          "module": {
+            "type": "string",
+            "example": "users"
+          },
+          "action": {
+            "type": "string",
+            "example": "read"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RoleSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "code": {
+            "type": "string",
+            "example": "super_admin"
+          },
+          "name": {
+            "type": "string",
+            "example": "Super Admin"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "code": {
+            "type": "string",
+            "example": "super_admin"
+          },
+          "name": {
+            "type": "string",
+            "example": "Super Admin"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSystem": {
+            "type": "boolean",
+            "example": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            }
+          }
+        }
+      },
+      "UserSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "email": {
+            "type": "string",
+            "example": "admin@mdc.local"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Bootstrap Admin"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "lastLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleSummary"
+            }
+          }
+        }
+      },
+      "AuthUserProfile": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserSummary"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": ["users.read", "roles.read", "projects.create"]
+              }
+            }
+          }
+        ]
+      },
+      "TokenBundle": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid",
+            "example": "bb345495-7dc8-42f0-8db7-2ac39dc6206f"
+          },
+          "user": {
+            "$ref": "#/components/schemas/AuthUserProfile"
+          }
+        }
+      },
+      "LoginInput": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@mdc.local"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "ChangeMe123!"
+          }
+        }
+      },
+      "RefreshTokenInput": {
+        "type": "object",
+        "required": ["refreshToken"],
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateUserInput": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [1]
+          }
+        }
+      },
+      "UpdateUserInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "UpdateUserStatusInput": {
+        "type": "object",
+        "required": ["isActive"],
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "AssignUserRolesInput": {
+        "type": "object",
+        "required": ["roleIds"],
+        "properties": {
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [1, 2]
+          }
+        }
+      },
+      "CreateRoleInput": {
+        "type": "object",
+        "required": ["code", "name"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "editor"
+          },
+          "name": {
+            "type": "string",
+            "example": "Editor"
+          },
+          "description": {
+            "type": "string",
+            "example": "Role custom untuk editor konten"
+          },
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [5, 6, 17, 18]
+          }
+        }
+      },
+      "UpdateRoleInput": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AssignRolePermissionsInput": {
+        "type": "object",
+        "required": ["permissionIds"],
+        "properties": {
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [1, 2, 3]
+          }
+        }
+      },
+      "ProjectListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        ]
+      },
       "ProjectResponse": {
-        "type": "object",
-        "required": ["success", "data"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "data": { "$ref": "#/components/schemas/Project" }
-        }
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        ]
       },
-      "ProjectCreateResponse": {
-        "type": "object",
-        "required": ["success", "message", "data"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "message": { "type": "string", "example": "Project created successfully" },
-          "data": { "$ref": "#/components/schemas/Project" }
-        }
+      "UserListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UserSummary"
+                }
+              }
+            }
+          }
+        ]
       },
-      "ProjectUpdateResponse": {
-        "type": "object",
-        "required": ["success", "message", "data"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "message": { "type": "string", "example": "Project updated successfully" },
-          "data": { "$ref": "#/components/schemas/Project" }
-        }
+      "UserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/AuthUserProfile"
+              }
+            }
+          }
+        ]
       },
-      "ProjectDeleteResponse": {
-        "type": "object",
-        "required": ["success", "message"],
-        "properties": {
-          "success": { "type": "boolean", "example": true },
-          "message": { "type": "string", "example": "Project deleted successfully" }
-        }
+      "RoleListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RoleResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        ]
+      },
+      "PermissionListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Permission"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "TokenResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TokenBundle"
+              }
+            }
+          }
+        ]
+      },
+      "FormsFoundationResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Forms API foundation is ready"
+              }
+            }
+          }
+        ]
       }
     },
     "responses": {
@@ -211,39 +884,49 @@
         "description": "Validasi input gagal / parameter tidak valid",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ValidationErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       },
       "Unauthorized": {
-        "description": "Token otorisasi hilang atau tidak disertakan",
+        "description": "Token hilang, tidak valid, atau sudah expired",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       },
       "Forbidden": {
-        "description": "Token otorisasi tidak valid / akses ditolak",
+        "description": "User terautentikasi tetapi tidak memiliki permission",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       },
       "NotFound": {
-        "description": "Resource/data yang diminta tidak ditemukan",
+        "description": "Resource tidak ditemukan",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       },
       "Conflict": {
-        "description": "Terjadi konflik data (misalnya slug sudah terpakai)",
+        "description": "Terjadi konflik data",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       },
@@ -251,7 +934,9 @@
         "description": "Terjadi kesalahan server internal",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
           }
         }
       }
@@ -265,14 +950,18 @@
         "description": "Mengembalikan status running dari API.",
         "responses": {
           "200": {
-            "description": "API is running successfully",
+            "description": "API aktif",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HomeResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/HomeResponse"
+                }
               }
             }
           },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
@@ -280,144 +969,260 @@
       "get": {
         "tags": ["General"],
         "summary": "Database Connection Test",
-        "description": "Menguji koneksi database ke PostgreSQL.",
+        "description": "Menguji koneksi PostgreSQL.",
         "responses": {
           "200": {
             "description": "Koneksi database berhasil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/DbTestResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/DbTestResponse"
+                }
               }
             }
           },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
-    "/api/portfolio": {
+    "/api/public/portfolio": {
       "get": {
-        "tags": ["Portfolio"],
-        "summary": "Mendapatkan daftar proyek portofolio",
-        "description": "Mengambil semua data portofolio proyek publik.",
+        "tags": ["Public Portfolio"],
+        "summary": "List public portfolio",
         "responses": {
           "200": {
-            "description": "Daftar portofolio berhasil diambil",
+            "description": "Daftar portfolio berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectListResponse"
+                }
               }
             }
           },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
-        }
-      },
-      "post": {
-        "tags": ["Portfolio"],
-        "summary": "Menambahkan portofolio baru (Admin)",
-        "security": [{ "BearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateProjectInput" }
-            }
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
           }
-        },
-        "responses": {
-          "201": {
-            "description": "Portofolio berhasil dibuat",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectCreateResponse" }
-              }
-            }
-          },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "409": { "$ref": "#/components/responses/Conflict" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
         }
       }
     },
-    "/api/portfolio/{slug}": {
+    "/api/public/portfolio/{slug}": {
       "get": {
-        "tags": ["Portfolio"],
-        "summary": "Mendapatkan studi kasus detail portofolio",
+        "tags": ["Public Portfolio"],
+        "summary": "Get public portfolio detail",
         "parameters": [
           {
             "name": "slug",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
-            "description": "Slug unik portofolio (e.g. jaladewa-champion)"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Detail portofolio berhasil ditemukan",
+            "description": "Detail portfolio ditemukan",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
-    "/api/portfolio/{id}": {
-      "put": {
-        "tags": ["Portfolio"],
-        "summary": "Mengubah data portofolio secara penuh (Admin)",
-        "security": [{ "BearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" },
-            "description": "ID UUID portofolio"
+    "/api/forms": {
+      "get": {
+        "tags": ["Forms"],
+        "summary": "Forms foundation health",
+        "responses": {
+          "200": {
+            "description": "Forms API foundation tersedia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormsFoundationResponse"
+                }
+              }
+            }
           }
-        ],
+        }
+      }
+    },
+    "/api/admin/auth/login": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Login admin",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateProjectInput" }
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Portofolio berhasil diupdate",
+            "description": "Login berhasil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectUpdateResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "409": { "$ref": "#/components/responses/Conflict" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/refresh": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Refresh access token admin",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token berhasil direfresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/logout": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Logout admin",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout berhasil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/me": {
+      "get": {
+        "tags": ["Admin Auth"],
+        "summary": "Get current admin profile",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profil admin berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": ["Admin Users"],
+        "summary": "List admin users",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar user berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
         }
       },
-      "patch": {
-        "tags": ["Portfolio"],
-        "summary": "Mengubah sebagian data portofolio (Admin)",
-        "security": [{ "BearerAuth": [] }],
-        "parameters": [
+      "post": {
+        "tags": ["Admin Users"],
+        "summary": "Create admin user",
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string", "format": "uuid" },
-            "description": "ID UUID portofolio"
+            "BearerAuth": []
           }
         ],
         "requestBody": {
@@ -425,74 +1230,738 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "slug": { "type": "string" },
-                  "name": { "type": "string" },
-                  "client": { "type": "string" },
-                  "year": { "type": "string" },
-                  "category": { "type": "string" },
-                  "industry": { "type": "string" },
-                  "serviceType": { "type": "string" },
-                  "summary": { "type": "string" },
-                  "challenge": { "type": "string" },
-                  "objective": { "type": "string" },
-                  "solution": { "type": "string" },
-                  "outcome": { "type": "string" },
-                  "deliverables": { "type": "array", "items": { "type": "string" } },
-                  "technologies": { "type": "array", "items": { "type": "string" } },
-                  "thumbnailLabel": { "type": "string" },
-                  "thumbnailTone": { "type": "string" },
-                  "gallery": { "type": "array", "items": { "$ref": "#/components/schemas/GalleryItem" } }
+                "$ref": "#/components/schemas/CreateUserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
                 }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/users/{id}": {
+      "get": {
+        "tags": ["Admin Users"],
+        "summary": "Get admin user detail",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail user berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Users"],
+        "summary": "Update admin user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Portofolio berhasil diupdate sebagian",
+            "description": "User berhasil diupdate",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectUpdateResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "409": { "$ref": "#/components/responses/Conflict" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
         }
-      },
-      "delete": {
-        "tags": ["Portfolio"],
-        "summary": "Menghapus portofolio (Admin)",
-        "security": [{ "BearerAuth": [] }],
+      }
+    },
+    "/api/admin/users/{id}/status": {
+      "patch": {
+        "tags": ["Admin Users"],
+        "summary": "Activate or deactivate admin user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "format": "uuid" },
-            "description": "ID UUID portofolio yang akan dihapus"
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserStatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status user berhasil diubah",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/users/{id}/roles": {
+      "put": {
+        "tags": ["Admin Users"],
+        "summary": "Assign roles to admin user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role user berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/roles": {
+      "get": {
+        "tags": ["Admin Roles"],
+        "summary": "List roles",
+        "security": [
+          {
+            "BearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Portofolio berhasil dihapus",
+            "description": "Daftar role berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectDeleteResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RoleListResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Roles"],
+        "summary": "Create role",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Role berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/roles/{id}": {
+      "get": {
+        "tags": ["Admin Roles"],
+        "summary": "Get role detail",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail role berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Roles"],
+        "summary": "Update role",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Roles"],
+        "summary": "Delete role",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/roles/{id}/permissions": {
+      "put": {
+        "tags": ["Admin Roles"],
+        "summary": "Assign permissions to role",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRolePermissionsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Permission role berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/permissions": {
+      "get": {
+        "tags": ["Admin Permissions"],
+        "summary": "List permissions",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar permission berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/admin/projects": {
+      "post": {
+        "tags": ["Admin Projects"],
+        "summary": "Create project from admin area",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/projects/{id}": {
+      "put": {
+        "tags": ["Admin Projects"],
+        "summary": "Replace project from admin area",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Projects"],
+        "summary": "Patch project from admin area",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectPatchInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project berhasil diupdate sebagian",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Projects"],
+        "summary": "Delete project from admin area",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
         }
       }
     }

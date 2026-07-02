@@ -13,11 +13,90 @@ datasource db {
 }
 
 model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique @db.VarChar(255)
+  name         String?        @db.VarChar(255)
+  passwordHash String?        @map("password_hash") @db.VarChar(255)
+  isActive     Boolean        @default(true) @map("is_active")
+  lastLoginAt  DateTime?      @map("last_login_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  userRoles    UserRole[]
+  sessions     AdminSession[]
+
+  @@map("users")
+}
+
+model Role {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique @db.VarChar(100)
+  name            String           @db.VarChar(255)
+  description     String?          @db.Text
+  isSystem        Boolean          @default(false) @map("is_system")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique @db.VarChar(100)
+  name            String           @db.VarChar(255)
+  description     String?          @db.Text
+  module          String           @db.VarChar(100)
+  action          String           @db.VarChar(100)
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId    Int      @map("user_id")
+  roleId    Int      @map("role_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  id           Int        @id @default(autoincrement())
+  roleId       Int        @map("role_id")
+  permissionId Int        @map("permission_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model AdminSession {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           Int       @map("user_id")
+  refreshTokenHash String    @map("refresh_token_hash") @db.VarChar(255)
+  expiresAt        DateTime  @map("expires_at")
+  revokedAt        DateTime? @map("revoked_at")
+  lastUsedAt       DateTime? @map("last_used_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("admin_sessions")
 }
 
 model Project {
@@ -44,4 +123,3 @@ model Project {
 
   @@map("projects")
 }
-
