@@ -1,6 +1,10 @@
 import prisma from "../../../config/prisma";
 import { ConflictError, NotFoundError } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
+import {
+  cancelPublishJobs,
+  upsertPublishJob,
+} from "../../../shared/scheduler/publish-jobs.service";
 import { mapPublicTeamMember, mapTeamMember } from "../team.helpers";
 
 const db = prisma as any;
@@ -148,6 +152,8 @@ export class DeleteTeamMemberUseCase {
     await db.teamMember.delete({
       where: { id },
     });
+
+    await cancelPublishJobs("team_member", id);
   }
 }
 
@@ -165,10 +171,22 @@ export class UpdateTeamMemberWorkflowUseCase {
       throw new NotFoundError("Team member not found");
     }
 
+    const workflowData = resolveWorkflowUpdate(existing.status, action, scheduleAt);
+
     const item = await db.teamMember.update({
       where: { id },
-      data: resolveWorkflowUpdate(existing.status, action, scheduleAt),
+      data: workflowData,
     });
+
+    if (action === "schedule" && workflowData.publishedAt) {
+      await upsertPublishJob({
+        entityType: "team_member",
+        entityId: id,
+        scheduledFor: workflowData.publishedAt,
+      });
+    } else {
+      await cancelPublishJobs("team_member", id);
+    }
 
     return mapTeamMember(item);
   }

@@ -6,6 +6,10 @@ import {
 } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
 import {
+  cancelPublishJobs,
+  upsertPublishJob,
+} from "../../../shared/scheduler/publish-jobs.service";
+import {
   faqItemInclude,
   mapFaqCategory,
   mapFaqItem,
@@ -233,6 +237,8 @@ export class DeleteFaqItemUseCase {
     await db.faqItem.delete({
       where: { id },
     });
+
+    await cancelPublishJobs("faq_item", id);
   }
 }
 
@@ -250,11 +256,23 @@ export class UpdateFaqItemWorkflowUseCase {
       throw new NotFoundError("FAQ item not found");
     }
 
+    const workflowData = resolveWorkflowUpdate(existing.status, action, scheduleAt);
+
     const item = await db.faqItem.update({
       where: { id },
-      data: resolveWorkflowUpdate(existing.status, action, scheduleAt),
+      data: workflowData,
       include: faqItemInclude,
     });
+
+    if (action === "schedule" && workflowData.publishedAt) {
+      await upsertPublishJob({
+        entityType: "faq_item",
+        entityId: id,
+        scheduledFor: workflowData.publishedAt,
+      });
+    } else {
+      await cancelPublishJobs("faq_item", id);
+    }
 
     return mapFaqItem(item);
   }

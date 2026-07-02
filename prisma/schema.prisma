@@ -21,6 +21,22 @@ enum WorkflowStatus {
   ARCHIVED
 }
 
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CLOSED
+  SPAM
+}
+
+enum PublishJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
 model User {
   id           Int            @id @default(autoincrement())
   email        String         @unique @db.VarChar(255)
@@ -32,6 +48,11 @@ model User {
   updatedAt    DateTime       @updatedAt @map("updated_at")
   userRoles    UserRole[]
   sessions     AdminSession[]
+  leadNotes    LeadNote[]
+  leadAssignments LeadAssignment[] @relation("LeadAssignmentsUser")
+  assignedLeads LeadAssignment[]   @relation("LeadAssignmentsAssignedBy")
+  mediaAssets  MediaAsset[]
+  auditLogs    AuditLog[]
 
   @@map("users")
 }
@@ -273,6 +294,130 @@ model RedirectRule {
 
   @@index([isActive])
   @@map("redirect_rules")
+}
+
+model Lead {
+  id           String           @id @default(uuid()) @db.Uuid
+  name         String           @db.VarChar(255)
+  email        String           @db.VarChar(255)
+  phone        String?          @db.VarChar(100)
+  company      String?          @db.VarChar(255)
+  message      String?          @db.Text
+  status       LeadStatus       @default(NEW)
+  source       String?          @db.VarChar(255)
+  sourcePage   String?          @map("source_page") @db.VarChar(500)
+  meta         Json?
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  notes        LeadNote[]
+  assignments  LeadAssignment[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+model LeadNote {
+  id        String   @id @default(uuid()) @db.Uuid
+  leadId     String  @map("lead_id") @db.Uuid
+  authorId   Int     @map("author_id")
+  content    String  @db.Text
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  lead       Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  author     User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([authorId])
+  @@map("lead_notes")
+}
+
+model LeadAssignment {
+  id           String   @id @default(uuid()) @db.Uuid
+  leadId        String  @map("lead_id") @db.Uuid
+  userId        Int     @map("user_id")
+  assignedById  Int     @map("assigned_by_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  lead          Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  user          User    @relation("LeadAssignmentsUser", fields: [userId], references: [id], onDelete: Cascade)
+  assignedBy    User    @relation("LeadAssignmentsAssignedBy", fields: [assignedById], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([userId])
+  @@map("lead_assignments")
+}
+
+model MediaAsset {
+  id           String   @id @default(uuid()) @db.Uuid
+  filename     String   @db.VarChar(255)
+  originalName String   @map("original_name") @db.VarChar(255)
+  mimeType     String   @map("mime_type") @db.VarChar(100)
+  size         Int
+  diskPath     String   @map("disk_path") @db.VarChar(500)
+  publicUrl    String   @map("public_url") @db.VarChar(500)
+  altText      String?  @map("alt_text") @db.VarChar(255)
+  title        String?  @db.VarChar(255)
+  uploadedById Int      @map("uploaded_by_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([mimeType])
+  @@index([uploadedById])
+  @@map("media_assets")
+}
+
+model NotificationSetting {
+  id         String   @id @default(uuid()) @db.Uuid
+  channel    String   @db.VarChar(50)
+  event      String   @db.VarChar(100)
+  isEnabled  Boolean  @default(true) @map("is_enabled")
+  config     Json
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([event])
+  @@unique([channel, event])
+  @@map("notification_settings")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  actorId    Int?     @map("actor_id")
+  module     String   @db.VarChar(100)
+  action     String   @db.VarChar(100)
+  entityType String   @map("entity_type") @db.VarChar(100)
+  entityId    String? @map("entity_id") @db.VarChar(100)
+  summary    String   @db.Text
+  payload    Json?
+  ipAddress  String?  @map("ip_address") @db.VarChar(100)
+  userAgent  String?  @map("user_agent") @db.VarChar(500)
+  createdAt  DateTime @default(now()) @map("created_at")
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([module])
+  @@index([createdAt])
+  @@index([actorId])
+  @@map("audit_logs")
+}
+
+model PublishJob {
+  id          String           @id @default(uuid()) @db.Uuid
+  entityType  String           @map("entity_type") @db.VarChar(100)
+  entityId    String           @map("entity_id") @db.VarChar(100)
+  scheduledFor DateTime        @map("scheduled_for")
+  status      PublishJobStatus @default(PENDING)
+  attempts    Int              @default(0)
+  lastError   String?          @map("last_error") @db.Text
+  processedAt DateTime?        @map("processed_at")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([scheduledFor])
+  @@map("publish_jobs")
 }
 
 model BlogCategory {

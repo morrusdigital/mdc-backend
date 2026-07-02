@@ -123,6 +123,30 @@
     {
       "name": "Forms",
       "description": "Fondasi endpoint public forms"
+    },
+    {
+      "name": "Forms Leads",
+      "description": "Endpoint public form untuk submit lead website"
+    },
+    {
+      "name": "Admin Leads",
+      "description": "Inbox lead, assignment, note, status, dan export"
+    },
+    {
+      "name": "Admin Media",
+      "description": "Upload dan manajemen media assets"
+    },
+    {
+      "name": "Admin Notifications",
+      "description": "Pengaturan notifikasi CMS"
+    },
+    {
+      "name": "Admin Audit Logs",
+      "description": "Daftar audit log aktivitas admin"
+    },
+    {
+      "name": "Admin Dashboard",
+      "description": "Ringkasan dashboard operasional CMS"
     }
   ],
   "components": {
@@ -4792,6 +4816,238 @@
           "200": {
             "description": "Redirect rule berhasil dihapus"
           }
+        }
+      }
+    },
+    "/api/forms/leads": {
+      "post": {
+        "tags": ["Forms Leads"],
+        "summary": "Submit website lead form",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "phone": { "type": "string" },
+                  "company": { "type": "string" },
+                  "message": { "type": "string" },
+                  "source": { "type": "string", "example": "website_form" },
+                  "sourcePage": { "type": "string", "example": "/contact" },
+                  "website": { "type": "string", "description": "Hidden honeypot field, must stay empty" },
+                  "meta": { "type": "object", "additionalProperties": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Lead berhasil dibuat" },
+          "403": { "description": "Rate limit atau spam terdeteksi" }
+        }
+      }
+    },
+    "/api/admin/leads": {
+      "get": {
+        "tags": ["Admin Leads"],
+        "summary": "List leads",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["new", "contacted", "qualified", "closed", "spam"] } },
+          { "name": "assignedUserId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Leads berhasil diambil" }
+        }
+      }
+    },
+    "/api/admin/leads/export": {
+      "get": {
+        "tags": ["Admin Leads"],
+        "summary": "Export leads as CSV",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["new", "contacted", "qualified", "closed", "spam"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export berhasil",
+            "content": {
+              "text/csv": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/leads/{id}": {
+      "get": {
+        "tags": ["Admin Leads"],
+        "summary": "Get lead detail",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Lead berhasil diambil" }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Leads"],
+        "summary": "Update lead data",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Lead berhasil diupdate" }
+        }
+      }
+    },
+    "/api/admin/leads/{id}/status": {
+      "patch": {
+        "tags": ["Admin Leads"],
+        "summary": "Update lead status",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Status lead berhasil diupdate" }
+        }
+      }
+    },
+    "/api/admin/leads/{id}/assignments": {
+      "post": {
+        "tags": ["Admin Leads"],
+        "summary": "Assign lead to user",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Lead berhasil di-assign" }
+        }
+      }
+    },
+    "/api/admin/leads/{id}/notes": {
+      "post": {
+        "tags": ["Admin Leads"],
+        "summary": "Add lead note",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Catatan lead berhasil ditambahkan" }
+        }
+      }
+    },
+    "/api/admin/media-assets": {
+      "get": {
+        "tags": ["Admin Media"],
+        "summary": "List media assets",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Media assets berhasil diambil" }
+        }
+      },
+      "post": {
+        "tags": ["Admin Media"],
+        "summary": "Upload media asset via base64 payload",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "201": { "description": "Media asset berhasil diupload" }
+        }
+      }
+    },
+    "/api/admin/media-assets/{id}": {
+      "get": {
+        "tags": ["Admin Media"],
+        "summary": "Get media asset detail",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Media asset berhasil diambil" }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Media"],
+        "summary": "Update media metadata",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Media asset berhasil diupdate" }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Media"],
+        "summary": "Delete media asset",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Media asset berhasil dihapus" }
+        }
+      }
+    },
+    "/api/admin/notification-settings": {
+      "get": {
+        "tags": ["Admin Notifications"],
+        "summary": "List notification settings",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Notification settings berhasil diambil" }
+        }
+      }
+    },
+    "/api/admin/notification-settings/{channel}/{event}": {
+      "put": {
+        "tags": ["Admin Notifications"],
+        "summary": "Upsert notification setting",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "channel", "in": "path", "required": true, "schema": { "type": "string", "enum": ["email", "webhook"] } },
+          { "name": "event", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Notification setting berhasil diupdate" }
+        }
+      }
+    },
+    "/api/admin/audit-logs": {
+      "get": {
+        "tags": ["Admin Audit Logs"],
+        "summary": "List audit logs",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "module", "in": "query", "schema": { "type": "string" } },
+          { "name": "actorId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100 } }
+        ],
+        "responses": {
+          "200": { "description": "Audit logs berhasil diambil" }
+        }
+      }
+    },
+    "/api/admin/dashboard/summary": {
+      "get": {
+        "tags": ["Admin Dashboard"],
+        "summary": "Get dashboard summary",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Dashboard summary berhasil diambil" }
         }
       }
     }

@@ -88,6 +88,19 @@ const permissionDefinitions = [
   ["redirects.create", "Redirects Create", "Create redirect rules"],
   ["redirects.update", "Redirects Update", "Update redirect rules"],
   ["redirects.delete", "Redirects Delete", "Delete redirect rules"],
+  ["leads.read", "Leads Read", "Read leads"],
+  ["leads.update", "Leads Update", "Update leads"],
+  ["leads.assign", "Leads Assign", "Assign leads"],
+  ["leads.note", "Leads Note", "Add lead notes"],
+  ["leads.export", "Leads Export", "Export leads"],
+  ["media.read", "Media Read", "Read media assets"],
+  ["media.create", "Media Create", "Create media assets"],
+  ["media.update", "Media Update", "Update media assets"],
+  ["media.delete", "Media Delete", "Delete media assets"],
+  ["notifications.read", "Notifications Read", "Read notification settings"],
+  ["notifications.update", "Notifications Update", "Update notification settings"],
+  ["audit_logs.read", "Audit Logs Read", "Read audit logs"],
+  ["dashboard.read", "Dashboard Read", "Read dashboard summary"],
 ] as const;
 
 const roleDefinitions = {
@@ -143,6 +156,15 @@ const roleDefinitions = {
       "redirects.read",
       "redirects.create",
       "redirects.update",
+      "leads.read",
+      "leads.update",
+      "leads.assign",
+      "leads.note",
+      "leads.export",
+      "media.read",
+      "media.create",
+      "media.update",
+      "dashboard.read",
     ],
   },
   reviewer_publisher: {
@@ -187,6 +209,7 @@ const roleDefinitions = {
       "faq.publish",
       "faq.archive",
       "redirects.read",
+      "dashboard.read",
     ],
   },
   seo_marketing: {
@@ -227,6 +250,10 @@ const roleDefinitions = {
       "redirects.create",
       "redirects.update",
       "redirects.delete",
+      "media.read",
+      "dashboard.read",
+      "notifications.read",
+      "notifications.update",
     ],
   },
   sales_bd: {
@@ -248,6 +275,7 @@ const roleDefinitions = {
       "team.read",
       "faq.read",
       "redirects.read",
+      "dashboard.read",
     ],
   },
   media_manager: {
@@ -273,6 +301,15 @@ const roleDefinitions = {
       "team.update",
       "faq.read",
       "redirects.read",
+      "leads.read",
+      "leads.update",
+      "leads.assign",
+      "leads.note",
+      "media.read",
+      "media.create",
+      "media.update",
+      "media.delete",
+      "dashboard.read",
     ],
   },
   viewer_analyst: {
@@ -297,6 +334,9 @@ const roleDefinitions = {
       "team.read",
       "faq.read",
       "redirects.read",
+      "leads.read",
+      "audit_logs.read",
+      "dashboard.read",
     ],
   },
 } as const;
@@ -352,6 +392,26 @@ const siteSettingDefinitions = [
     label: "Public Contact Phone",
     value: "+62 000 0000 0000",
     valueType: "string",
+  },
+] as const;
+
+const notificationSettingDefinitions = [
+  {
+    channel: "email",
+    event: "lead.created",
+    isEnabled: false,
+    config: {
+      recipients: [],
+    },
+  },
+  {
+    channel: "webhook",
+    event: "lead.created",
+    isEnabled: false,
+    config: {
+      url: "",
+      secret: "",
+    },
   },
 ] as const;
 
@@ -484,6 +544,31 @@ async function seedNavigationMenus() {
   }
 }
 
+async function seedNotificationSettings() {
+  for (const definition of notificationSettingDefinitions) {
+    await prisma.notificationSetting.upsert({
+      where: {
+        channel_event: {
+          channel: definition.channel,
+          event: definition.event,
+        },
+      },
+      update: {
+        channel: definition.channel,
+        event: definition.event,
+        isEnabled: definition.isEnabled,
+        config: definition.config as any,
+      },
+      create: {
+        channel: definition.channel,
+        event: definition.event,
+        isEnabled: definition.isEnabled,
+        config: definition.config as any,
+      },
+    });
+  }
+}
+
 async function seedSiteSettings() {
   for (const definition of siteSettingDefinitions) {
     await prisma.siteSetting.upsert({
@@ -514,6 +599,7 @@ async function main() {
   await seedRoles();
   await seedNavigationMenus();
   await seedSiteSettings();
+  await seedNotificationSettings();
   await seedBootstrapAdmin();
 }
 

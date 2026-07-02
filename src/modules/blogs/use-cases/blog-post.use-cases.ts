@@ -9,6 +9,10 @@ import {
   publicWorkflowWhere,
   resolveWorkflowUpdate,
 } from "../../../shared/workflow/workflow";
+import {
+  cancelPublishJobs,
+  upsertPublishJob,
+} from "../../../shared/scheduler/publish-jobs.service";
 import { blogPostInclude, mapBlogPost, mapPublicBlogPost } from "../blogs.helpers";
 
 const db = prisma as any;
@@ -275,6 +279,8 @@ export class DeleteBlogPostUseCase {
     await db.blogPost.delete({
       where: { id },
     });
+
+    await cancelPublishJobs("blog_post", id);
   }
 }
 
@@ -293,11 +299,23 @@ export class UpdateBlogPostWorkflowUseCase {
       throw new NotFoundError("Blog post not found");
     }
 
+    const workflowData = resolveWorkflowUpdate(existing.status, action, scheduleAt);
+
     const post = await db.blogPost.update({
       where: { id },
-      data: resolveWorkflowUpdate(existing.status, action, scheduleAt),
+      data: workflowData,
       include: blogPostInclude,
     });
+
+    if (action === "schedule" && workflowData.publishedAt) {
+      await upsertPublishJob({
+        entityType: "blog_post",
+        entityId: id,
+        scheduledFor: workflowData.publishedAt,
+      });
+    } else {
+      await cancelPublishJobs("blog_post", id);
+    }
 
     return mapBlogPost(post);
   }

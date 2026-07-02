@@ -1,6 +1,10 @@
 import prisma from "../../../config/prisma";
 import { NotFoundError } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
+import {
+  cancelPublishJobs,
+  upsertPublishJob,
+} from "../../../shared/scheduler/publish-jobs.service";
 import { mapPublicTestimonial, mapTestimonial } from "../testimonials.helpers";
 
 const db = prisma as any;
@@ -106,6 +110,8 @@ export class DeleteTestimonialUseCase {
     await db.testimonial.delete({
       where: { id },
     });
+
+    await cancelPublishJobs("testimonial", id);
   }
 }
 
@@ -123,10 +129,22 @@ export class UpdateTestimonialWorkflowUseCase {
       throw new NotFoundError("Testimonial not found");
     }
 
+    const workflowData = resolveWorkflowUpdate(existing.status, action, scheduleAt);
+
     const item = await db.testimonial.update({
       where: { id },
-      data: resolveWorkflowUpdate(existing.status, action, scheduleAt),
+      data: workflowData,
     });
+
+    if (action === "schedule" && workflowData.publishedAt) {
+      await upsertPublishJob({
+        entityType: "testimonial",
+        entityId: id,
+        scheduledFor: workflowData.publishedAt,
+      });
+    } else {
+      await cancelPublishJobs("testimonial", id);
+    }
 
     return mapTestimonial(item);
   }

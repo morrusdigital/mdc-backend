@@ -28,6 +28,11 @@ import {
 import { teamAdminRoutes } from "../modules/team/team.routes";
 import { faqsAdminRoutes } from "../modules/faqs/faqs.routes";
 import { redirectsAdminRoutes } from "../modules/redirects/redirects.routes";
+import { leadsAdminRoutes } from "../modules/leads/leads.routes";
+import mediaRoutes from "../modules/media/media.routes";
+import notificationsRoutes from "../modules/notifications/notifications.routes";
+import auditLogsRoutes from "../modules/audit-logs/audit-logs.routes";
+import dashboardRoutes from "../modules/dashboard/dashboard.routes";
 import {
   requireAuth,
   requirePermission,
@@ -50,6 +55,11 @@ router.use("/", testimonialsAdminRoutes);
 router.use("/", teamAdminRoutes);
 router.use("/", faqsAdminRoutes);
 router.use("/", redirectsAdminRoutes);
+router.use("/", leadsAdminRoutes);
+router.use("/", mediaRoutes);
+router.use("/", notificationsRoutes);
+router.use("/", auditLogsRoutes);
+router.use("/", dashboardRoutes);
 
 router.post(
   "/projects",

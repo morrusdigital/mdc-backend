@@ -4,6 +4,10 @@ import {
   NotFoundError,
 } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
+import {
+  cancelPublishJobs,
+  upsertPublishJob,
+} from "../../../shared/scheduler/publish-jobs.service";
 import { mapCaseStudy, mapPublicCaseStudy } from "../case-studies.helpers";
 
 const db = prisma as any;
@@ -163,6 +167,8 @@ export class DeleteCaseStudyUseCase {
     await db.caseStudy.delete({
       where: { id },
     });
+
+    await cancelPublishJobs("case_study", id);
   }
 }
 
@@ -180,10 +186,22 @@ export class UpdateCaseStudyWorkflowUseCase {
       throw new NotFoundError("Case study not found");
     }
 
+    const workflowData = resolveWorkflowUpdate(existing.status, action, scheduleAt);
+
     const item = await db.caseStudy.update({
       where: { id },
-      data: resolveWorkflowUpdate(existing.status, action, scheduleAt),
+      data: workflowData,
     });
+
+    if (action === "schedule" && workflowData.publishedAt) {
+      await upsertPublishJob({
+        entityType: "case_study",
+        entityId: id,
+        scheduledFor: workflowData.publishedAt,
+      });
+    } else {
+      await cancelPublishJobs("case_study", id);
+    }
 
     return mapCaseStudy(item);
   }
