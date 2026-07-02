@@ -17,6 +17,8 @@ const caseStudyBaseSchema = z.object({
   seoTitle: z.string().min(1).max(255).optional(),
   seoDescription: z.string().min(1).optional(),
   seoKeywords: z.array(z.string().min(1)).optional(),
+  canonicalUrl: z.string().url().optional(),
+  ogImageUrl: z.string().url().optional(),
   featured: z.boolean().optional(),
 });
 

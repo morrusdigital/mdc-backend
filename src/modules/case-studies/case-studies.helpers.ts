@@ -1,3 +1,5 @@
+import { mapSeo } from "../../shared/public-content/public-content";
+
 export const mapCaseStudy = (item: any) => ({
   id: item.id,
   title: item.title,
@@ -13,6 +15,8 @@ export const mapCaseStudy = (item: any) => ({
   seoTitle: item.seoTitle,
   seoDescription: item.seoDescription,
   seoKeywords: item.seoKeywords,
+  canonicalUrl: item.canonicalUrl,
+  ogImageUrl: item.ogImageUrl,
   featured: item.featured,
   status: item.status,
   publishedAt: item.publishedAt,
@@ -21,4 +25,29 @@ export const mapCaseStudy = (item: any) => ({
   archivedAt: item.archivedAt,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
+});
+
+export const mapPublicCaseStudy = (item: any) => ({
+  id: item.id,
+  slug: item.slug,
+  title: item.title,
+  clientName: item.clientName,
+  industry: item.industry,
+  serviceType: item.serviceType,
+  summary: item.summary,
+  challenge: item.challenge,
+  solution: item.solution,
+  outcome: item.outcome,
+  results: item.results,
+  featured: item.featured,
+  publishedAt: item.publishedAt,
+  seo: mapSeo({
+    title: item.seoTitle,
+    description: item.seoDescription,
+    keywords: item.seoKeywords,
+    canonicalUrl: item.canonicalUrl,
+    ogImageUrl: item.ogImageUrl,
+    fallbackTitle: item.title,
+    fallbackDescription: item.summary,
+  }),
 });

@@ -1,3 +1,5 @@
+import { mapPublicNavigationItems } from "../../shared/public-content/public-content";
+
 export const navigationMenuInclude = {
   items: {
     orderBy: {
@@ -37,4 +39,10 @@ export const mapNavigationMenu = (menu: any) => ({
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
   })),
+});
+
+export const mapPublicNavigationMenu = (menu: any) => ({
+  code: menu.code,
+  name: menu.name,
+  items: mapPublicNavigationItems(menu.items || []),
 });

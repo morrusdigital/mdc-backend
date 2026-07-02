@@ -84,6 +84,10 @@ const permissionDefinitions = [
   ["faq.approve", "Faq Approve", "Approve faq items"],
   ["faq.publish", "Faq Publish", "Publish and schedule faq items"],
   ["faq.archive", "Faq Archive", "Archive faq items"],
+  ["redirects.read", "Redirects Read", "Read redirect rules"],
+  ["redirects.create", "Redirects Create", "Create redirect rules"],
+  ["redirects.update", "Redirects Update", "Update redirect rules"],
+  ["redirects.delete", "Redirects Delete", "Delete redirect rules"],
 ] as const;
 
 const roleDefinitions = {
@@ -136,6 +140,9 @@ const roleDefinitions = {
       "faq.create",
       "faq.update",
       "faq.submit_review",
+      "redirects.read",
+      "redirects.create",
+      "redirects.update",
     ],
   },
   reviewer_publisher: {
@@ -179,6 +186,7 @@ const roleDefinitions = {
       "faq.approve",
       "faq.publish",
       "faq.archive",
+      "redirects.read",
     ],
   },
   seo_marketing: {
@@ -215,6 +223,10 @@ const roleDefinitions = {
       "faq.create",
       "faq.update",
       "faq.submit_review",
+      "redirects.read",
+      "redirects.create",
+      "redirects.update",
+      "redirects.delete",
     ],
   },
   sales_bd: {
@@ -235,6 +247,7 @@ const roleDefinitions = {
       "testimonials.read",
       "team.read",
       "faq.read",
+      "redirects.read",
     ],
   },
   media_manager: {
@@ -259,6 +272,7 @@ const roleDefinitions = {
       "team.create",
       "team.update",
       "faq.read",
+      "redirects.read",
     ],
   },
   viewer_analyst: {
@@ -282,6 +296,7 @@ const roleDefinitions = {
       "testimonials.read",
       "team.read",
       "faq.read",
+      "redirects.read",
     ],
   },
 } as const;

@@ -1,7 +1,7 @@
 import prisma from "../../../config/prisma";
 import { ConflictError, NotFoundError } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
-import { mapTeamMember } from "../team.helpers";
+import { mapPublicTeamMember, mapTeamMember } from "../team.helpers";
 
 const db = prisma as any;
 
@@ -11,7 +11,7 @@ export class ListTeamMembersUseCase {
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
-    return items.map(mapTeamMember);
+    return items.map(mapPublicTeamMember);
   }
 }
 
@@ -25,7 +25,7 @@ export class GetTeamMemberByIdUseCase {
       throw new NotFoundError("Team member not found");
     }
 
-    return mapTeamMember(item);
+    return mapPublicTeamMember(item);
   }
 }
 
@@ -37,6 +37,11 @@ export class CreateTeamMemberUseCase {
     bio: string;
     photoUrl?: string;
     linkedinUrl?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+    seoKeywords?: string[];
+    canonicalUrl?: string;
+    ogImageUrl?: string;
     sortOrder?: number;
     featured?: boolean;
   }) {
@@ -56,6 +61,11 @@ export class CreateTeamMemberUseCase {
         bio: input.bio,
         photoUrl: input.photoUrl ?? null,
         linkedinUrl: input.linkedinUrl ?? null,
+        seoTitle: input.seoTitle ?? null,
+        seoDescription: input.seoDescription ?? null,
+        seoKeywords: input.seoKeywords as any,
+        canonicalUrl: input.canonicalUrl ?? null,
+        ogImageUrl: input.ogImageUrl ?? null,
         sortOrder: input.sortOrder ?? 0,
         featured: input.featured ?? false,
       },
@@ -75,6 +85,11 @@ export class UpdateTeamMemberUseCase {
       bio?: string;
       photoUrl?: string;
       linkedinUrl?: string;
+      seoTitle?: string;
+      seoDescription?: string;
+      seoKeywords?: string[];
+      canonicalUrl?: string;
+      ogImageUrl?: string;
       sortOrder?: number;
       featured?: boolean;
     }
@@ -106,6 +121,11 @@ export class UpdateTeamMemberUseCase {
         ...(input.bio !== undefined && { bio: input.bio }),
         ...(input.photoUrl !== undefined && { photoUrl: input.photoUrl }),
         ...(input.linkedinUrl !== undefined && { linkedinUrl: input.linkedinUrl }),
+        ...(input.seoTitle !== undefined && { seoTitle: input.seoTitle }),
+        ...(input.seoDescription !== undefined && { seoDescription: input.seoDescription }),
+        ...(input.seoKeywords !== undefined && { seoKeywords: input.seoKeywords as any }),
+        ...(input.canonicalUrl !== undefined && { canonicalUrl: input.canonicalUrl }),
+        ...(input.ogImageUrl !== undefined && { ogImageUrl: input.ogImageUrl }),
         ...(input.sortOrder !== undefined && { sortOrder: input.sortOrder }),
         ...(input.featured !== undefined && { featured: input.featured }),
       },

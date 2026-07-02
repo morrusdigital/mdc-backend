@@ -48,6 +48,8 @@ import {
 } from "../modules/team/team.schemas";
 import { listPublicFaqs } from "../modules/faqs/faqs.controller";
 import { publicFaqsQuerySchema } from "../modules/faqs/faqs.schemas";
+import { resolveRedirect } from "../modules/redirects/redirects.controller";
+import { resolveRedirectQuerySchema } from "../modules/redirects/redirects.schemas";
 
 const router = Router();
 
@@ -119,5 +121,10 @@ router.get(
   getPublicTeamMemberBySlug
 );
 router.get("/faqs", validateRequest(publicFaqsQuerySchema), listPublicFaqs);
+router.get(
+  "/redirects/resolve",
+  validateRequest(resolveRedirectQuerySchema),
+  resolveRedirect
+);
 
 export default router;

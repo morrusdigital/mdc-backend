@@ -113,6 +113,14 @@
       "description": "Manajemen FAQ categories dan FAQ items"
     },
     {
+      "name": "Public Redirects",
+      "description": "Endpoint publik untuk resolusi redirect"
+    },
+    {
+      "name": "Admin Redirects",
+      "description": "Manajemen redirect rules"
+    },
+    {
       "name": "Forms",
       "description": "Fondasi endpoint public forms"
     }
@@ -1761,6 +1769,58 @@
           }
         }
       },
+      "SeoBlock": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "nullable": true },
+          "description": { "type": "string", "nullable": true },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "canonicalUrl": { "type": "string", "nullable": true },
+          "ogImageUrl": { "type": "string", "nullable": true }
+        }
+      },
+      "RedirectRule": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "sourcePath": { "type": "string" },
+          "targetPath": { "type": "string" },
+          "statusCode": { "type": "integer", "enum": [301, 302] },
+          "isActive": { "type": "boolean" },
+          "note": { "type": "string", "nullable": true }
+        }
+      },
+      "RedirectRuleListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/RedirectRule" } } } }
+        ]
+      },
+      "RedirectRuleResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/RedirectRule" } } }
+        ]
+      },
+      "RedirectResolveResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "matched": { "type": "boolean" },
+                  "sourcePath": { "type": "string" },
+                  "targetPath": { "type": "string", "nullable": true },
+                  "statusCode": { "type": "integer", "nullable": true }
+                }
+              }
+            }
+          }
+        ]
+      },
       "BlogCategory": {
         "type": "object",
         "properties": {
@@ -1794,6 +1854,7 @@
           "featured": { "type": "boolean" },
           "status": { "$ref": "#/components/schemas/WorkflowStatus" },
           "publishedAt": { "type": "string", "format": "date-time", "nullable": true },
+          "seo": { "$ref": "#/components/schemas/SeoBlock" },
           "category": { "$ref": "#/components/schemas/BlogCategory", "nullable": true },
           "tags": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } }
         }
@@ -1813,7 +1874,8 @@
           "outcome": { "type": "string" },
           "results": { "type": "object", "additionalProperties": true, "nullable": true },
           "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
+          "seo": { "$ref": "#/components/schemas/SeoBlock" }
         }
       },
       "Testimonial": {
@@ -1827,7 +1889,8 @@
           "rating": { "type": "integer", "nullable": true },
           "sortOrder": { "type": "integer" },
           "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
+          "seo": { "$ref": "#/components/schemas/SeoBlock" }
         }
       },
       "TeamMember": {
@@ -4423,6 +4486,32 @@
         }
       }
     },
+    "/api/public/redirects/resolve": {
+      "get": {
+        "tags": ["Public Redirects"],
+        "summary": "Resolve public redirect by source path",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Redirect resolution completed",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedirectResolveResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/admin/blog-posts": {
       "get": {
         "tags": ["Admin Blogs"],
@@ -4619,6 +4708,89 @@
                 "schema": { "$ref": "#/components/schemas/FaqItemListResponse" }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/admin/redirects": {
+      "get": {
+        "tags": ["Admin Redirects"],
+        "summary": "List redirect rules",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar redirect rules berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedirectRuleListResponse" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Redirects"],
+        "summary": "Create redirect rule",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "201": {
+            "description": "Redirect rule berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/redirects/{id}": {
+      "get": {
+        "tags": ["Admin Redirects"],
+        "summary": "Get redirect rule detail",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Redirect rule berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Redirects"],
+        "summary": "Update redirect rule",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Redirect rule berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Redirects"],
+        "summary": "Delete redirect rule",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Redirect rule berhasil dihapus"
           }
         }
       }

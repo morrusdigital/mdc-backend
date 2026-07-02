@@ -1,3 +1,5 @@
+import { mapSeo } from "../../shared/public-content/public-content";
+
 export const blogPostInclude = {
   category: true,
   blogPostTags: {
@@ -35,6 +37,8 @@ export const mapBlogPost = (post: any) => ({
   seoTitle: post.seoTitle,
   seoDescription: post.seoDescription,
   seoKeywords: post.seoKeywords,
+  canonicalUrl: post.canonicalUrl,
+  ogImageUrl: post.ogImageUrl,
   featured: post.featured,
   status: post.status,
   publishedAt: post.publishedAt,
@@ -45,4 +49,35 @@ export const mapBlogPost = (post: any) => ({
   updatedAt: post.updatedAt,
   category: post.category ? mapBlogCategory(post.category) : null,
   tags: (post.blogPostTags || []).map((item: any) => mapTag(item.tag)),
+});
+
+export const mapPublicBlogPost = (post: any) => ({
+  id: post.id,
+  slug: post.slug,
+  title: post.title,
+  excerpt: post.excerpt,
+  content: post.content,
+  featured: post.featured,
+  publishedAt: post.publishedAt,
+  seo: mapSeo({
+    title: post.seoTitle,
+    description: post.seoDescription,
+    keywords: post.seoKeywords,
+    canonicalUrl: post.canonicalUrl,
+    ogImageUrl: post.ogImageUrl,
+    fallbackTitle: post.title,
+    fallbackDescription: post.excerpt,
+  }),
+  category: post.category
+    ? {
+        id: post.category.id,
+        name: post.category.name,
+        slug: post.category.slug,
+      }
+    : null,
+  tags: (post.blogPostTags || []).map((item: any) => ({
+    id: item.tag.id,
+    name: item.tag.name,
+    slug: item.tag.slug,
+  })),
 });

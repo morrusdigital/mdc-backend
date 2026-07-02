@@ -23,6 +23,10 @@ export const serviceSlugParamsSchema = {
 export const publicServicesQuerySchema = {
   query: z.object({
     categorySlug: z.string().min(1).optional(),
+    featured: z
+      .enum(["true", "false"])
+      .transform((value) => value === "true")
+      .optional(),
   }),
 };
 
@@ -59,6 +63,11 @@ export const createServiceSchema = {
     shortDescription: z.string().min(1).optional(),
     description: z.string().min(1).optional(),
     content: z.record(z.string(), z.unknown()).optional(),
+    seoTitle: z.string().min(1).max(255).optional(),
+    seoDescription: z.string().min(1).optional(),
+    seoKeywords: z.array(z.string().min(1)).optional(),
+    canonicalUrl: z.string().url().optional(),
+    ogImageUrl: z.string().url().optional(),
     iconName: z.string().min(1).max(100).optional(),
     featured: z.boolean().optional(),
     sortOrder: z.number().int().min(0).optional(),
@@ -76,6 +85,11 @@ export const updateServiceSchema = {
       shortDescription: z.string().min(1).optional(),
       description: z.string().min(1).optional(),
       content: z.record(z.string(), z.unknown()).optional(),
+      seoTitle: z.string().min(1).max(255).optional(),
+      seoDescription: z.string().min(1).optional(),
+      seoKeywords: z.array(z.string().min(1)).optional(),
+      canonicalUrl: z.string().url().optional(),
+      ogImageUrl: z.string().url().optional(),
       iconName: z.string().min(1).max(100).optional(),
       featured: z.boolean().optional(),
       sortOrder: z.number().int().min(0).optional(),

@@ -5,7 +5,12 @@ import {
   ValidationError,
 } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
-import { faqItemInclude, mapFaqCategory, mapFaqItem } from "../faqs.helpers";
+import {
+  faqItemInclude,
+  mapFaqCategory,
+  mapFaqItem,
+  mapPublicFaqItem,
+} from "../faqs.helpers";
 
 const db = prisma as any;
 
@@ -275,8 +280,12 @@ export class ListPublicFaqsUseCase {
     });
 
     return categories.map((category: any) => ({
-      ...mapFaqCategory(category),
-      items: category.faqItems.map((item: any) => mapFaqItem({ ...item, category })),
+      id: category.id,
+      name: category.name,
+      slug: category.slug,
+      description: category.description,
+      sortOrder: category.sortOrder,
+      items: category.faqItems.map((item: any) => mapPublicFaqItem({ ...item, category })),
     }));
   }
 }

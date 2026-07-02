@@ -10,6 +10,11 @@ const teamMemberBaseSchema = z.object({
   bio: z.string().min(1),
   photoUrl: z.string().url().optional(),
   linkedinUrl: z.string().url().optional(),
+  seoTitle: z.string().min(1).max(255).optional(),
+  seoDescription: z.string().min(1).optional(),
+  seoKeywords: z.array(z.string().min(1)).optional(),
+  canonicalUrl: z.string().url().optional(),
+  ogImageUrl: z.string().url().optional(),
   sortOrder: z.number().int().min(0).optional(),
   featured: z.boolean().optional(),
 });

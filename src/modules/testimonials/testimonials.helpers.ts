@@ -15,3 +15,15 @@ export const mapTestimonial = (item: any) => ({
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
 });
+
+export const mapPublicTestimonial = (item: any) => ({
+  id: item.id,
+  name: item.name,
+  role: item.role,
+  company: item.company,
+  quote: item.quote,
+  rating: item.rating,
+  sortOrder: item.sortOrder,
+  featured: item.featured,
+  publishedAt: item.publishedAt,
+});

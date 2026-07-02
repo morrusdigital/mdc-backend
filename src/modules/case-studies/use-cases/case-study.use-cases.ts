@@ -4,7 +4,7 @@ import {
   NotFoundError,
 } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
-import { mapCaseStudy } from "../case-studies.helpers";
+import { mapCaseStudy, mapPublicCaseStudy } from "../case-studies.helpers";
 
 const db = prisma as any;
 
@@ -14,7 +14,7 @@ export class ListCaseStudiesUseCase {
       orderBy: [{ createdAt: "desc" }],
     });
 
-    return items.map(mapCaseStudy);
+    return items.map(mapPublicCaseStudy);
   }
 }
 
@@ -28,7 +28,7 @@ export class GetCaseStudyByIdUseCase {
       throw new NotFoundError("Case study not found");
     }
 
-    return mapCaseStudy(item);
+    return mapPublicCaseStudy(item);
   }
 }
 
@@ -47,6 +47,8 @@ export class CreateCaseStudyUseCase {
     seoTitle?: string;
     seoDescription?: string;
     seoKeywords?: string[];
+    canonicalUrl?: string;
+    ogImageUrl?: string;
     featured?: boolean;
   }) {
     const existing = await db.caseStudy.findUnique({
@@ -72,6 +74,8 @@ export class CreateCaseStudyUseCase {
         seoTitle: input.seoTitle ?? null,
         seoDescription: input.seoDescription ?? null,
         seoKeywords: input.seoKeywords as any,
+        canonicalUrl: input.canonicalUrl ?? null,
+        ogImageUrl: input.ogImageUrl ?? null,
         featured: input.featured ?? false,
       },
     });
@@ -97,6 +101,8 @@ export class UpdateCaseStudyUseCase {
       seoTitle?: string;
       seoDescription?: string;
       seoKeywords?: string[];
+      canonicalUrl?: string;
+      ogImageUrl?: string;
       featured?: boolean;
     }
   ) {
@@ -134,6 +140,8 @@ export class UpdateCaseStudyUseCase {
         ...(input.seoTitle !== undefined && { seoTitle: input.seoTitle }),
         ...(input.seoDescription !== undefined && { seoDescription: input.seoDescription }),
         ...(input.seoKeywords !== undefined && { seoKeywords: input.seoKeywords as any }),
+        ...(input.canonicalUrl !== undefined && { canonicalUrl: input.canonicalUrl }),
+        ...(input.ogImageUrl !== undefined && { ogImageUrl: input.ogImageUrl }),
         ...(input.featured !== undefined && { featured: input.featured }),
       },
     });

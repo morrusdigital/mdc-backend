@@ -110,9 +110,11 @@ export const deleteService = async (req: Request, res: Response, next: NextFunct
 
 export const listPublicServices = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categorySlug =
-      typeof req.query.categorySlug === "string" ? req.query.categorySlug : undefined;
-    const services = await listPublicServicesUseCase.execute(categorySlug);
+    const filters = {
+      ...(typeof req.query.categorySlug === "string" ? { categorySlug: req.query.categorySlug } : {}),
+      ...(typeof req.query.featured === "boolean" ? { featured: req.query.featured } : {}),
+    };
+    const services = await listPublicServicesUseCase.execute(filters);
     sendSuccess(res, 200, "Services retrieved successfully", services);
   } catch (error) {
     next(error);

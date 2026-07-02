@@ -10,6 +10,11 @@ export class CreateServiceUseCase {
     shortDescription?: string;
     description?: string;
     content?: Record<string, unknown>;
+    seoTitle?: string;
+    seoDescription?: string;
+    seoKeywords?: string[];
+    canonicalUrl?: string;
+    ogImageUrl?: string;
     iconName?: string;
     featured?: boolean;
     sortOrder?: number;
@@ -41,6 +46,11 @@ export class CreateServiceUseCase {
         shortDescription: input.shortDescription ?? null,
         description: input.description ?? null,
         content: input.content as any,
+        seoTitle: input.seoTitle ?? null,
+        seoDescription: input.seoDescription ?? null,
+        seoKeywords: input.seoKeywords as any,
+        canonicalUrl: input.canonicalUrl ?? null,
+        ogImageUrl: input.ogImageUrl ?? null,
         iconName: input.iconName ?? null,
         featured: input.featured ?? false,
         sortOrder: input.sortOrder ?? 0,

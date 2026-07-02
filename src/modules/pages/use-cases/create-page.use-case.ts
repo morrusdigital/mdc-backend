@@ -18,6 +18,8 @@ export class CreatePageUseCase {
     seoTitle?: string;
     seoDescription?: string;
     seoKeywords?: string[];
+    canonicalUrl?: string;
+    ogImageUrl?: string;
     sections?: SectionInput[];
   }) {
     const existing = await prisma.page.findUnique({
@@ -36,6 +38,8 @@ export class CreatePageUseCase {
         seoTitle: input.seoTitle ?? null,
         seoDescription: input.seoDescription ?? null,
         seoKeywords: input.seoKeywords as any,
+        canonicalUrl: input.canonicalUrl ?? null,
+        ogImageUrl: input.ogImageUrl ?? null,
         ...(input.sections && input.sections.length > 0
           ? {
               sections: {

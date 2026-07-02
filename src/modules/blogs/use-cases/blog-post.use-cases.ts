@@ -9,7 +9,7 @@ import {
   publicWorkflowWhere,
   resolveWorkflowUpdate,
 } from "../../../shared/workflow/workflow";
-import { blogPostInclude, mapBlogPost } from "../blogs.helpers";
+import { blogPostInclude, mapBlogPost, mapPublicBlogPost } from "../blogs.helpers";
 
 const db = prisma as any;
 
@@ -50,6 +50,8 @@ const mapCreateData = (input: {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string[];
+  canonicalUrl?: string;
+  ogImageUrl?: string;
   featured?: boolean;
 }) => ({
   title: input.title,
@@ -59,6 +61,8 @@ const mapCreateData = (input: {
   seoTitle: input.seoTitle ?? null,
   seoDescription: input.seoDescription ?? null,
   seoKeywords: input.seoKeywords as any,
+  canonicalUrl: input.canonicalUrl ?? null,
+  ogImageUrl: input.ogImageUrl ?? null,
   featured: input.featured ?? false,
   status: WorkflowStatuses.DRAFT,
   ...(input.categoryId ? { category: { connect: { id: input.categoryId } } } : {}),
@@ -73,6 +77,8 @@ const mapUpdateData = (input: {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string[];
+  canonicalUrl?: string;
+  ogImageUrl?: string;
   featured?: boolean;
 }) => ({
   ...(input.categoryId !== undefined
@@ -87,6 +93,8 @@ const mapUpdateData = (input: {
   ...(input.seoTitle !== undefined && { seoTitle: input.seoTitle }),
   ...(input.seoDescription !== undefined && { seoDescription: input.seoDescription }),
   ...(input.seoKeywords !== undefined && { seoKeywords: input.seoKeywords as any }),
+  ...(input.canonicalUrl !== undefined && { canonicalUrl: input.canonicalUrl }),
+  ...(input.ogImageUrl !== undefined && { ogImageUrl: input.ogImageUrl }),
   ...(input.featured !== undefined && { featured: input.featured }),
 });
 
@@ -97,7 +105,7 @@ export class ListBlogPostsUseCase {
       orderBy: [{ createdAt: "desc" }],
     });
 
-    return posts.map(mapBlogPost);
+    return posts.map(mapPublicBlogPost);
   }
 }
 
@@ -112,7 +120,7 @@ export class GetBlogPostByIdUseCase {
       throw new NotFoundError("Blog post not found");
     }
 
-    return mapBlogPost(post);
+    return mapPublicBlogPost(post);
   }
 }
 
@@ -126,6 +134,8 @@ export class CreateBlogPostUseCase {
     seoTitle?: string;
     seoDescription?: string;
     seoKeywords?: string[];
+    canonicalUrl?: string;
+    ogImageUrl?: string;
     tagIds?: string[];
     featured?: boolean;
   }) {
@@ -184,6 +194,8 @@ export class UpdateBlogPostUseCase {
       seoTitle?: string;
       seoDescription?: string;
       seoKeywords?: string[];
+      canonicalUrl?: string;
+      ogImageUrl?: string;
       tagIds?: string[];
       featured?: boolean;
     }

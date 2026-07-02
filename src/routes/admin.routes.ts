@@ -27,6 +27,7 @@ import {
 } from "../modules/testimonials/testimonials.routes";
 import { teamAdminRoutes } from "../modules/team/team.routes";
 import { faqsAdminRoutes } from "../modules/faqs/faqs.routes";
+import { redirectsAdminRoutes } from "../modules/redirects/redirects.routes";
 import {
   requireAuth,
   requirePermission,
@@ -48,6 +49,7 @@ router.use("/", caseStudiesAdminRoutes);
 router.use("/", testimonialsAdminRoutes);
 router.use("/", teamAdminRoutes);
 router.use("/", faqsAdminRoutes);
+router.use("/", redirectsAdminRoutes);
 
 router.post(
   "/projects",

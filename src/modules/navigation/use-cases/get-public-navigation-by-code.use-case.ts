@@ -1,6 +1,9 @@
 import prisma from "../../../config/prisma";
 import { NotFoundError } from "../../../shared/errors/app-error";
-import { mapNavigationMenu, publicNavigationMenuInclude } from "../navigation.helpers";
+import {
+  mapPublicNavigationMenu,
+  publicNavigationMenuInclude,
+} from "../navigation.helpers";
 
 export class GetPublicNavigationByCodeUseCase {
   async execute(code: string) {
@@ -13,6 +16,6 @@ export class GetPublicNavigationByCodeUseCase {
       throw new NotFoundError("Navigation menu not found");
     }
 
-    return mapNavigationMenu(menu);
+    return mapPublicNavigationMenu(menu);
   }
 }

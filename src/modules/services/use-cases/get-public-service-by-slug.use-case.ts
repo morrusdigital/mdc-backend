@@ -1,6 +1,6 @@
 import prisma from "../../../config/prisma";
 import { NotFoundError } from "../../../shared/errors/app-error";
-import { mapService, serviceInclude } from "../services.helpers";
+import { mapPublicService, serviceInclude } from "../services.helpers";
 
 export class GetPublicServiceBySlugUseCase {
   async execute(slug: string) {
@@ -16,6 +16,6 @@ export class GetPublicServiceBySlugUseCase {
       throw new NotFoundError("Service not found");
     }
 
-    return mapService(service);
+    return mapPublicService(service);
   }
 }

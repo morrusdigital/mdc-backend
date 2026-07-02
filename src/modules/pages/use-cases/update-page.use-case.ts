@@ -12,6 +12,8 @@ export class UpdatePageUseCase {
       seoTitle?: string;
       seoDescription?: string;
       seoKeywords?: string[];
+      canonicalUrl?: string;
+      ogImageUrl?: string;
     }
   ) {
     const existing = await prisma.page.findUnique({
@@ -41,6 +43,8 @@ export class UpdatePageUseCase {
         ...(input.seoTitle !== undefined && { seoTitle: input.seoTitle }),
         ...(input.seoDescription !== undefined && { seoDescription: input.seoDescription }),
         ...(input.seoKeywords !== undefined && { seoKeywords: input.seoKeywords as any }),
+        ...(input.canonicalUrl !== undefined && { canonicalUrl: input.canonicalUrl }),
+        ...(input.ogImageUrl !== undefined && { ogImageUrl: input.ogImageUrl }),
       },
       include: pageInclude,
     });

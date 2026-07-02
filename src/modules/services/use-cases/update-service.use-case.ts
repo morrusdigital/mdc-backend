@@ -16,6 +16,11 @@ export class UpdateServiceUseCase {
       shortDescription?: string;
       description?: string;
       content?: Record<string, unknown>;
+      seoTitle?: string;
+      seoDescription?: string;
+      seoKeywords?: string[];
+      canonicalUrl?: string;
+      ogImageUrl?: string;
       iconName?: string;
       featured?: boolean;
       sortOrder?: number;
@@ -59,6 +64,11 @@ export class UpdateServiceUseCase {
         ...(input.shortDescription !== undefined && { shortDescription: input.shortDescription }),
         ...(input.description !== undefined && { description: input.description }),
         ...(input.content !== undefined && { content: input.content as any }),
+        ...(input.seoTitle !== undefined && { seoTitle: input.seoTitle }),
+        ...(input.seoDescription !== undefined && { seoDescription: input.seoDescription }),
+        ...(input.seoKeywords !== undefined && { seoKeywords: input.seoKeywords as any }),
+        ...(input.canonicalUrl !== undefined && { canonicalUrl: input.canonicalUrl }),
+        ...(input.ogImageUrl !== undefined && { ogImageUrl: input.ogImageUrl }),
         ...(input.iconName !== undefined && { iconName: input.iconName }),
         ...(input.featured !== undefined && { featured: input.featured }),
         ...(input.sortOrder !== undefined && { sortOrder: input.sortOrder }),

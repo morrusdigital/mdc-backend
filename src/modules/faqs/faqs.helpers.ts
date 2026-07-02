@@ -29,3 +29,12 @@ export const mapFaqItem = (item: any) => ({
   updatedAt: item.updatedAt,
   category: item.category ? mapFaqCategory(item.category) : null,
 });
+
+export const mapPublicFaqItem = (item: any) => ({
+  id: item.id,
+  question: item.question,
+  answer: item.answer,
+  sortOrder: item.sortOrder,
+  featured: item.featured,
+  publishedAt: item.publishedAt,
+});

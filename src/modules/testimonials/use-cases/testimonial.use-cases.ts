@@ -1,7 +1,7 @@
 import prisma from "../../../config/prisma";
 import { NotFoundError } from "../../../shared/errors/app-error";
 import { publicWorkflowWhere, resolveWorkflowUpdate } from "../../../shared/workflow/workflow";
-import { mapTestimonial } from "../testimonials.helpers";
+import { mapPublicTestimonial, mapTestimonial } from "../testimonials.helpers";
 
 const db = prisma as any;
 
@@ -11,7 +11,7 @@ export class ListTestimonialsUseCase {
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
-    return items.map(mapTestimonial);
+    return items.map(mapPublicTestimonial);
   }
 }
 
