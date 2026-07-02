@@ -1,0 +1,18 @@
+export const mapTeamMember = (item: any) => ({
+  id: item.id,
+  name: item.name,
+  slug: item.slug,
+  jobTitle: item.jobTitle,
+  bio: item.bio,
+  photoUrl: item.photoUrl,
+  linkedinUrl: item.linkedinUrl,
+  sortOrder: item.sortOrder,
+  featured: item.featured,
+  status: item.status,
+  publishedAt: item.publishedAt,
+  approvedAt: item.approvedAt,
+  submittedForReviewAt: item.submittedForReviewAt,
+  archivedAt: item.archivedAt,
+  createdAt: item.createdAt,
+  updatedAt: item.updatedAt,
+});

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "MDC Backend API Docs",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "Dokumentasi API statis untuk Morrus Digital Connecting CMS backend."
   },
   "servers": [
@@ -19,6 +19,22 @@
     {
       "name": "Public Portfolio",
       "description": "Endpoint publik untuk data portfolio"
+    },
+    {
+      "name": "Public Pages",
+      "description": "Endpoint publik untuk company profile pages"
+    },
+    {
+      "name": "Public Services",
+      "description": "Endpoint publik untuk services"
+    },
+    {
+      "name": "Public Navigation",
+      "description": "Endpoint publik untuk navigation menu"
+    },
+    {
+      "name": "Public Settings",
+      "description": "Endpoint publik untuk site settings"
     },
     {
       "name": "Admin Auth",
@@ -39,6 +55,62 @@
     {
       "name": "Admin Projects",
       "description": "Manajemen project di area admin CMS"
+    },
+    {
+      "name": "Admin Pages",
+      "description": "Manajemen page company profile"
+    },
+    {
+      "name": "Admin Services",
+      "description": "Manajemen service dan service category"
+    },
+    {
+      "name": "Admin Navigation",
+      "description": "Manajemen navigation menu dan item"
+    },
+    {
+      "name": "Admin Settings",
+      "description": "Manajemen site settings dasar"
+    },
+    {
+      "name": "Public Blogs",
+      "description": "Endpoint publik untuk blog posts dan kategori blog"
+    },
+    {
+      "name": "Public Case Studies",
+      "description": "Endpoint publik untuk case studies"
+    },
+    {
+      "name": "Public Testimonials",
+      "description": "Endpoint publik untuk testimonials"
+    },
+    {
+      "name": "Public Team",
+      "description": "Endpoint publik untuk team members"
+    },
+    {
+      "name": "Public FAQs",
+      "description": "Endpoint publik untuk FAQ"
+    },
+    {
+      "name": "Admin Blogs",
+      "description": "Manajemen blog posts, blog categories, dan tags"
+    },
+    {
+      "name": "Admin Case Studies",
+      "description": "Manajemen case studies"
+    },
+    {
+      "name": "Admin Testimonials",
+      "description": "Manajemen testimonials"
+    },
+    {
+      "name": "Admin Team",
+      "description": "Manajemen team members"
+    },
+    {
+      "name": "Admin FAQs",
+      "description": "Manajemen FAQ categories dan FAQ items"
     },
     {
       "name": "Forms",
@@ -722,6 +794,653 @@
           }
         }
       },
+      "PageSection": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hero",
+              "rich_text",
+              "image_text",
+              "stats",
+              "service_grid",
+              "case_study_list",
+              "testimonial_list",
+              "faq_list",
+              "cta_banner",
+              "gallery",
+              "contact_form"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "example": 0
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "example": true
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "example": "Tentang Kami"
+          },
+          "slug": {
+            "type": "string",
+            "example": "tentang-kami"
+          },
+          "excerpt": {
+            "type": "string",
+            "nullable": true
+          },
+          "seoTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "seoDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "seoKeywords": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "isPublished": {
+            "type": "boolean",
+            "example": false
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageSection"
+            }
+          }
+        }
+      },
+      "PageSectionInput": {
+        "type": "object",
+        "required": ["type", "sortOrder", "content"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "hero",
+              "rich_text",
+              "image_text",
+              "stats",
+              "service_grid",
+              "case_study_list",
+              "testimonial_list",
+              "faq_list",
+              "cta_banner",
+              "gallery",
+              "contact_form"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isEnabled": {
+            "type": "boolean"
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "CreatePageInput": {
+        "type": "object",
+        "required": ["title", "slug"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "seoTitle": {
+            "type": "string"
+          },
+          "seoDescription": {
+            "type": "string"
+          },
+          "seoKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageSectionInput"
+            }
+          }
+        }
+      },
+      "UpdatePageInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "seoTitle": {
+            "type": "string"
+          },
+          "seoDescription": {
+            "type": "string"
+          },
+          "seoKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ReplacePageSectionsInput": {
+        "type": "object",
+        "required": ["sections"],
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageSectionInput"
+            }
+          }
+        }
+      },
+      "PublishPageInput": {
+        "type": "object",
+        "required": ["isPublished"],
+        "properties": {
+          "isPublished": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "ServiceCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "iconName": {
+            "type": "string",
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "category": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceCategory"
+              }
+            ],
+            "nullable": true
+          }
+        }
+      },
+      "CreateServiceCategoryInput": {
+        "type": "object",
+        "required": ["name", "slug"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateServiceCategoryInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateServiceInput": {
+        "type": "object",
+        "required": ["name", "slug"],
+        "properties": {
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "iconName": {
+            "type": "string"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isPublished": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateServiceInput": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "iconName": {
+            "type": "string"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isPublished": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NavigationItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "menuId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "pageId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "label": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NavigationMenu": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "example": "header"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NavigationItem"
+            }
+          }
+        }
+      },
+      "UpdateNavigationMenuInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "NavigationItemInput": {
+        "type": "object",
+        "required": ["label", "url", "sortOrder"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "pageId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "label": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ReplaceNavigationItemsInput": {
+        "type": "object",
+        "required": ["items"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NavigationItemInput"
+            }
+          }
+        }
+      },
+      "SiteSetting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "group": {
+            "type": "string",
+            "example": "company_profile"
+          },
+          "key": {
+            "type": "string",
+            "example": "brand_name"
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "nullable": true
+          },
+          "valueType": {
+            "type": "string",
+            "example": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SiteSettingEntryInput": {
+        "type": "object",
+        "required": ["key", "value", "valueType"],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "nullable": true
+          },
+          "valueType": {
+            "type": "string"
+          }
+        }
+      },
+      "UpsertSettingsGroupInput": {
+        "type": "object",
+        "required": ["items"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SiteSettingEntryInput"
+            }
+          }
+        }
+      },
       "ProjectListResponse": {
         "allOf": [
           {
@@ -860,6 +1579,392 @@
               }
             }
           }
+        ]
+      },
+      "PageListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PageResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Page"
+              }
+            }
+          }
+        ]
+      },
+      "ServiceCategoryListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ServiceCategory"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ServiceCategoryResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ServiceCategory"
+              }
+            }
+          }
+        ]
+      },
+      "ServiceListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ServiceResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Service"
+              }
+            }
+          }
+        ]
+      },
+      "NavigationMenuListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/NavigationMenu"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NavigationMenuResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/NavigationMenu"
+              }
+            }
+          }
+        ]
+      },
+      "SiteSettingListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/SiteSetting"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "WorkflowStatus": {
+        "type": "string",
+        "enum": [
+          "DRAFT",
+          "IN_REVIEW",
+          "APPROVED",
+          "SCHEDULED",
+          "PUBLISHED",
+          "ARCHIVED"
+        ]
+      },
+      "WorkflowScheduleInput": {
+        "type": "object",
+        "required": ["publishedAt"],
+        "properties": {
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BlogCategory": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "sortOrder": { "type": "integer" }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" }
+        }
+      },
+      "BlogPost": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "categoryId": { "type": "string", "format": "uuid", "nullable": true },
+          "title": { "type": "string" },
+          "slug": { "type": "string" },
+          "excerpt": { "type": "string", "nullable": true },
+          "content": { "type": "object", "additionalProperties": true },
+          "seoTitle": { "type": "string", "nullable": true },
+          "seoDescription": { "type": "string", "nullable": true },
+          "seoKeywords": { "type": "array", "items": { "type": "string" }, "nullable": true },
+          "featured": { "type": "boolean" },
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
+          "publishedAt": { "type": "string", "format": "date-time", "nullable": true },
+          "category": { "$ref": "#/components/schemas/BlogCategory", "nullable": true },
+          "tags": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } }
+        }
+      },
+      "CaseStudy": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "slug": { "type": "string" },
+          "clientName": { "type": "string" },
+          "industry": { "type": "string" },
+          "serviceType": { "type": "string" },
+          "summary": { "type": "string" },
+          "challenge": { "type": "string" },
+          "solution": { "type": "string" },
+          "outcome": { "type": "string" },
+          "results": { "type": "object", "additionalProperties": true, "nullable": true },
+          "featured": { "type": "boolean" },
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+        }
+      },
+      "Testimonial": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "company": { "type": "string" },
+          "quote": { "type": "string" },
+          "rating": { "type": "integer", "nullable": true },
+          "sortOrder": { "type": "integer" },
+          "featured": { "type": "boolean" },
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+        }
+      },
+      "TeamMember": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "jobTitle": { "type": "string" },
+          "bio": { "type": "string" },
+          "photoUrl": { "type": "string", "nullable": true },
+          "linkedinUrl": { "type": "string", "nullable": true },
+          "sortOrder": { "type": "integer" },
+          "featured": { "type": "boolean" },
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+        }
+      },
+      "FaqCategory": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "sortOrder": { "type": "integer" },
+          "isActive": { "type": "boolean" }
+        }
+      },
+      "FaqItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "categoryId": { "type": "string", "format": "uuid", "nullable": true },
+          "question": { "type": "string" },
+          "answer": { "type": "string" },
+          "sortOrder": { "type": "integer" },
+          "featured": { "type": "boolean" },
+          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
+          "category": { "$ref": "#/components/schemas/FaqCategory", "nullable": true }
+        }
+      },
+      "FaqGroup": {
+        "allOf": [
+          { "$ref": "#/components/schemas/FaqCategory" },
+          {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/FaqItem" }
+              }
+            }
+          }
+        ]
+      },
+      "BlogPostResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/BlogPost" } } }
+        ]
+      },
+      "BlogPostListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/BlogPost" } } } }
+        ]
+      },
+      "BlogCategoryListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/BlogCategory" } } } }
+        ]
+      },
+      "TagListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } } } }
+        ]
+      },
+      "CaseStudyResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/CaseStudy" } } }
+        ]
+      },
+      "CaseStudyListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/CaseStudy" } } } }
+        ]
+      },
+      "TestimonialResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/Testimonial" } } }
+        ]
+      },
+      "TestimonialListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/Testimonial" } } } }
+        ]
+      },
+      "TeamMemberResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/TeamMember" } } }
+        ]
+      },
+      "TeamMemberListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/TeamMember" } } } }
+        ]
+      },
+      "FaqCategoryListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqCategory" } } } }
+        ]
+      },
+      "FaqItemResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/FaqItem" } } }
+        ]
+      },
+      "FaqItemListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqItem" } } } }
+        ]
+      },
+      "FaqGroupListResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqGroup" } } } }
         ]
       },
       "FormsFoundationResponse": {
@@ -1041,6 +2146,173 @@
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/public/pages/{slug}": {
+      "get": {
+        "tags": ["Public Pages"],
+        "summary": "Get public page by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/public/services": {
+      "get": {
+        "tags": ["Public Services"],
+        "summary": "List public services",
+        "parameters": [
+          {
+            "name": "categorySlug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter services berdasarkan slug category"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar services berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/api/public/services/{slug}": {
+      "get": {
+        "tags": ["Public Services"],
+        "summary": "Get public service by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail service berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/public/navigation/{code}": {
+      "get": {
+        "tags": ["Public Navigation"],
+        "summary": "Get public navigation menu by code",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "header"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Navigation menu berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationMenuResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/public/settings/{group}": {
+      "get": {
+        "tags": ["Public Settings"],
+        "summary": "Get public site settings by group",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "company_profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Site setting group berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettingListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           }
         }
       }
@@ -1961,6 +3233,1392 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/pages": {
+      "get": {
+        "tags": ["Admin Pages"],
+        "summary": "List pages",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar pages berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Pages"],
+        "summary": "Create page",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePageInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Page berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/pages/{id}": {
+      "get": {
+        "tags": ["Admin Pages"],
+        "summary": "Get page detail",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail page berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Pages"],
+        "summary": "Update page",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePageInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Page berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Pages"],
+        "summary": "Delete page",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/pages/{id}/sections": {
+      "put": {
+        "tags": ["Admin Pages"],
+        "summary": "Replace page sections",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplacePageSectionsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sections page berhasil diganti",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/pages/{id}/publish": {
+      "patch": {
+        "tags": ["Admin Pages"],
+        "summary": "Update publish status page",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishPageInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status publish page berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/service-categories": {
+      "get": {
+        "tags": ["Admin Services"],
+        "summary": "List service categories",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar service category berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCategoryListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Services"],
+        "summary": "Create service category",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceCategoryInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Service category berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/service-categories/{id}": {
+      "patch": {
+        "tags": ["Admin Services"],
+        "summary": "Update service category",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceCategoryInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Service category berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Services"],
+        "summary": "Delete service category",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service category berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/services": {
+      "get": {
+        "tags": ["Admin Services"],
+        "summary": "List services",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar services berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Services"],
+        "summary": "Create service",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Service berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      }
+    },
+    "/api/admin/services/{id}": {
+      "get": {
+        "tags": ["Admin Services"],
+        "summary": "Get service detail",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail service berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Services"],
+        "summary": "Update service",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Service berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Services"],
+        "summary": "Delete service",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/navigation/menus": {
+      "get": {
+        "tags": ["Admin Navigation"],
+        "summary": "List navigation menus",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar navigation menu berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationMenuListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/admin/navigation/menus/{id}": {
+      "get": {
+        "tags": ["Admin Navigation"],
+        "summary": "Get navigation menu detail",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail navigation menu berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationMenuResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Navigation"],
+        "summary": "Update navigation menu metadata",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNavigationMenuInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Navigation menu berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationMenuResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/navigation/menus/{id}/items": {
+      "put": {
+        "tags": ["Admin Navigation"],
+        "summary": "Replace navigation items",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceNavigationItemsInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Navigation items berhasil diganti",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NavigationMenuResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/admin/settings": {
+      "get": {
+        "tags": ["Admin Settings"],
+        "summary": "List all site settings",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar site settings berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettingListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/admin/settings/{group}": {
+      "get": {
+        "tags": ["Admin Settings"],
+        "summary": "Get site settings by group",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Site setting group berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettingListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Admin Settings"],
+        "summary": "Upsert site settings by group",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertSettingsGroupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Site setting group berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteSettingListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/public/blog-posts": {
+      "get": {
+        "tags": ["Public Blogs"],
+        "summary": "List public blog posts",
+        "responses": {
+          "200": {
+            "description": "Daftar blog posts berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/blog-posts/{slug}": {
+      "get": {
+        "tags": ["Public Blogs"],
+        "summary": "Get public blog post by slug",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/blog-categories": {
+      "get": {
+        "tags": ["Public Blogs"],
+        "summary": "List public blog categories",
+        "responses": {
+          "200": {
+            "description": "Daftar blog categories berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogCategoryListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/case-studies": {
+      "get": {
+        "tags": ["Public Case Studies"],
+        "summary": "List public case studies",
+        "responses": {
+          "200": {
+            "description": "Daftar case studies berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CaseStudyListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/case-studies/{slug}": {
+      "get": {
+        "tags": ["Public Case Studies"],
+        "summary": "Get public case study by slug",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Case study berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CaseStudyResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/testimonials": {
+      "get": {
+        "tags": ["Public Testimonials"],
+        "summary": "List public testimonials",
+        "responses": {
+          "200": {
+            "description": "Daftar testimonials berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TestimonialListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/team-members": {
+      "get": {
+        "tags": ["Public Team"],
+        "summary": "List public team members",
+        "responses": {
+          "200": {
+            "description": "Daftar team members berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TeamMemberListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/team-members/{slug}": {
+      "get": {
+        "tags": ["Public Team"],
+        "summary": "Get public team member by slug",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team member berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TeamMemberResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/public/faqs": {
+      "get": {
+        "tags": ["Public FAQs"],
+        "summary": "List public FAQs grouped by category",
+        "responses": {
+          "200": {
+            "description": "Daftar FAQ berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FaqGroupListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/blog-posts": {
+      "get": {
+        "tags": ["Admin Blogs"],
+        "summary": "List blog posts",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar blog posts berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogPostListResponse" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Admin Blogs"],
+        "summary": "Create blog post",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "201": {
+            "description": "Blog post berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/blog-posts/{id}": {
+      "get": {
+        "tags": ["Admin Blogs"],
+        "summary": "Get blog post detail",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Admin Blogs"],
+        "summary": "Update blog post",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Admin Blogs"],
+        "summary": "Delete blog post",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Blog post berhasil dihapus" }
+        }
+      }
+    },
+    "/api/admin/blog-categories": {
+      "get": {
+        "tags": ["Admin Blogs"],
+        "summary": "List blog categories",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar blog categories berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlogCategoryListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/tags": {
+      "get": {
+        "tags": ["Admin Blogs"],
+        "summary": "List tags",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar tags berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TagListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/case-studies": {
+      "get": {
+        "tags": ["Admin Case Studies"],
+        "summary": "List case studies",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar case studies berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CaseStudyListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/testimonials": {
+      "get": {
+        "tags": ["Admin Testimonials"],
+        "summary": "List testimonials",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar testimonials berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TestimonialListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/team-members": {
+      "get": {
+        "tags": ["Admin Team"],
+        "summary": "List team members",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar team members berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TeamMemberListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/faq-categories": {
+      "get": {
+        "tags": ["Admin FAQs"],
+        "summary": "List FAQ categories",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar FAQ categories berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FaqCategoryListResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/faq-items": {
+      "get": {
+        "tags": ["Admin FAQs"],
+        "summary": "List FAQ items",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar FAQ items berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FaqItemListResponse" }
+              }
+            }
           }
         }
       }

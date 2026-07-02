@@ -12,6 +12,15 @@ datasource db {
   provider = "postgresql"
 }
 
+enum WorkflowStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
 model User {
   id           Int            @id @default(autoincrement())
   email        String         @unique @db.VarChar(255)
@@ -122,4 +131,302 @@ model Project {
   updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("projects")
+}
+
+model Page {
+  id             String        @id @default(uuid()) @db.Uuid
+  title          String        @db.VarChar(255)
+  slug           String        @unique @db.VarChar(255)
+  excerpt        String?       @db.Text
+  seoTitle       String?       @map("seo_title") @db.VarChar(255)
+  seoDescription String?       @map("seo_description") @db.Text
+  seoKeywords    Json?         @map("seo_keywords")
+  isPublished    Boolean       @default(false) @map("is_published")
+  publishedAt    DateTime?     @map("published_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  sections       PageSection[]
+  navigationItems NavigationItem[]
+
+  @@map("pages")
+}
+
+model PageSection {
+  id        String   @id @default(uuid()) @db.Uuid
+  pageId    String   @map("page_id") @db.Uuid
+  type      String   @db.VarChar(100)
+  label     String?  @db.VarChar(255)
+  sortOrder Int      @default(0) @map("sort_order")
+  isEnabled Boolean  @default(true) @map("is_enabled")
+  content   Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+  @@index([pageId, sortOrder])
+  @@map("page_sections")
+}
+
+model ServiceCategory {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(255)
+  slug        String    @unique @db.VarChar(255)
+  description String?   @db.Text
+  sortOrder   Int       @default(0) @map("sort_order")
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  services    Service[]
+
+  @@map("service_categories")
+}
+
+model Service {
+  id               String           @id @default(uuid()) @db.Uuid
+  categoryId       String?          @map("category_id") @db.Uuid
+  name             String           @db.VarChar(255)
+  slug             String           @unique @db.VarChar(255)
+  shortDescription String?          @map("short_description") @db.Text
+  description      String?          @db.Text
+  content          Json?
+  iconName         String?          @map("icon_name") @db.VarChar(100)
+  featured         Boolean          @default(false)
+  sortOrder        Int              @default(0) @map("sort_order")
+  isPublished      Boolean          @default(false) @map("is_published")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  category         ServiceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([categoryId])
+  @@index([isPublished, sortOrder])
+  @@map("services")
+}
+
+model NavigationMenu {
+  id          String           @id @default(uuid()) @db.Uuid
+  code        String           @unique @db.VarChar(100)
+  name        String           @db.VarChar(255)
+  description String?          @db.Text
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  items       NavigationItem[]
+
+  @@map("navigation_menus")
+}
+
+model NavigationItem {
+  id        String           @id @default(uuid()) @db.Uuid
+  menuId    String           @map("menu_id") @db.Uuid
+  parentId  String?          @map("parent_id") @db.Uuid
+  pageId    String?          @map("page_id") @db.Uuid
+  label     String           @db.VarChar(255)
+  url       String           @db.VarChar(500)
+  target    String?          @db.VarChar(50)
+  sortOrder Int              @default(0) @map("sort_order")
+  isActive  Boolean          @default(true) @map("is_active")
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @updatedAt @map("updated_at")
+  menu      NavigationMenu   @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parent    NavigationItem?  @relation("NavigationItemChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children  NavigationItem[] @relation("NavigationItemChildren")
+  page      Page?            @relation(fields: [pageId], references: [id], onDelete: SetNull)
+
+  @@index([menuId])
+  @@index([parentId])
+  @@index([pageId])
+  @@index([menuId, sortOrder])
+  @@map("navigation_items")
+}
+
+model SiteSetting {
+  id        String   @id @default(uuid()) @db.Uuid
+  group     String   @db.VarChar(100)
+  key       String   @db.VarChar(100)
+  label     String?  @db.VarChar(255)
+  value     Json
+  valueType String   @map("value_type") @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([group, key])
+  @@index([group])
+  @@map("site_settings")
+}
+
+model BlogCategory {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @db.VarChar(255)
+  slug        String     @unique @db.VarChar(255)
+  description String?    @db.Text
+  sortOrder   Int        @default(0) @map("sort_order")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  blogPosts   BlogPost[]
+
+  @@index([sortOrder])
+  @@map("blog_categories")
+}
+
+model Tag {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String        @db.VarChar(255)
+  slug         String        @unique @db.VarChar(255)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  blogPostTags BlogPostTag[]
+
+  @@map("tags")
+}
+
+model BlogPost {
+  id                   String         @id @default(uuid()) @db.Uuid
+  categoryId           String?        @map("category_id") @db.Uuid
+  title                String         @db.VarChar(255)
+  slug                 String         @unique @db.VarChar(255)
+  excerpt              String?        @db.Text
+  content              Json
+  seoTitle             String?        @map("seo_title") @db.VarChar(255)
+  seoDescription       String?        @map("seo_description") @db.Text
+  seoKeywords          Json?          @map("seo_keywords")
+  featured             Boolean        @default(false)
+  status               WorkflowStatus @default(DRAFT)
+  publishedAt          DateTime?      @map("published_at")
+  approvedAt           DateTime?      @map("approved_at")
+  submittedForReviewAt DateTime?      @map("submitted_for_review_at")
+  archivedAt           DateTime?      @map("archived_at")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+  category             BlogCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  blogPostTags         BlogPostTag[]
+
+  @@index([categoryId])
+  @@index([status, publishedAt])
+  @@index([featured, publishedAt])
+  @@map("blog_posts")
+}
+
+model BlogPostTag {
+  id         String   @id @default(uuid()) @db.Uuid
+  blogPostId String   @map("blog_post_id") @db.Uuid
+  tagId       String  @map("tag_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  blogPost    BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  tag         Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([blogPostId, tagId])
+  @@index([blogPostId])
+  @@index([tagId])
+  @@map("blog_post_tags")
+}
+
+model CaseStudy {
+  id                   String         @id @default(uuid()) @db.Uuid
+  title                String         @db.VarChar(255)
+  slug                 String         @unique @db.VarChar(255)
+  clientName           String         @map("client_name") @db.VarChar(255)
+  industry             String         @db.VarChar(100)
+  serviceType          String         @map("service_type") @db.VarChar(255)
+  summary              String         @db.Text
+  challenge            String         @db.Text
+  solution             String         @db.Text
+  outcome              String         @db.Text
+  results              Json?
+  seoTitle             String?        @map("seo_title") @db.VarChar(255)
+  seoDescription       String?        @map("seo_description") @db.Text
+  seoKeywords          Json?          @map("seo_keywords")
+  featured             Boolean        @default(false)
+  status               WorkflowStatus @default(DRAFT)
+  publishedAt          DateTime?      @map("published_at")
+  approvedAt           DateTime?      @map("approved_at")
+  submittedForReviewAt DateTime?      @map("submitted_for_review_at")
+  archivedAt           DateTime?      @map("archived_at")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  @@index([status, publishedAt])
+  @@index([featured, publishedAt])
+  @@map("case_studies")
+}
+
+model Testimonial {
+  id                   String         @id @default(uuid()) @db.Uuid
+  name                 String         @db.VarChar(255)
+  role                 String         @db.VarChar(255)
+  company              String         @db.VarChar(255)
+  quote                String         @db.Text
+  rating               Int?
+  sortOrder            Int            @default(0) @map("sort_order")
+  featured             Boolean        @default(false)
+  status               WorkflowStatus @default(DRAFT)
+  publishedAt          DateTime?      @map("published_at")
+  approvedAt           DateTime?      @map("approved_at")
+  submittedForReviewAt DateTime?      @map("submitted_for_review_at")
+  archivedAt           DateTime?      @map("archived_at")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  @@index([status, publishedAt])
+  @@index([featured, sortOrder])
+  @@map("testimonials")
+}
+
+model TeamMember {
+  id                   String         @id @default(uuid()) @db.Uuid
+  name                 String         @db.VarChar(255)
+  slug                 String         @unique @db.VarChar(255)
+  jobTitle             String         @map("job_title") @db.VarChar(255)
+  bio                  String         @db.Text
+  photoUrl             String?        @map("photo_url") @db.VarChar(500)
+  linkedinUrl          String?        @map("linkedin_url") @db.VarChar(500)
+  sortOrder            Int            @default(0) @map("sort_order")
+  featured             Boolean        @default(false)
+  status               WorkflowStatus @default(DRAFT)
+  publishedAt          DateTime?      @map("published_at")
+  approvedAt           DateTime?      @map("approved_at")
+  submittedForReviewAt DateTime?      @map("submitted_for_review_at")
+  archivedAt           DateTime?      @map("archived_at")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  @@index([status, publishedAt])
+  @@index([featured, sortOrder])
+  @@map("team_members")
+}
+
+model FaqCategory {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(255)
+  slug        String    @unique @db.VarChar(255)
+  description String?   @db.Text
+  sortOrder   Int       @default(0) @map("sort_order")
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  faqItems    FaqItem[]
+
+  @@index([sortOrder])
+  @@map("faq_categories")
+}
+
+model FaqItem {
+  id                   String         @id @default(uuid()) @db.Uuid
+  categoryId           String?        @map("category_id") @db.Uuid
+  question             String         @db.Text
+  answer               String         @db.Text
+  sortOrder            Int            @default(0) @map("sort_order")
+  featured             Boolean        @default(false)
+  status               WorkflowStatus @default(DRAFT)
+  publishedAt          DateTime?      @map("published_at")
+  approvedAt           DateTime?      @map("approved_at")
+  submittedForReviewAt DateTime?      @map("submitted_for_review_at")
+  archivedAt           DateTime?      @map("archived_at")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+  category             FaqCategory?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([categoryId])
+  @@index([status, publishedAt])
+  @@index([featured, sortOrder])
+  @@map("faq_items")
 }
