@@ -55,6 +55,30 @@ export class UpdateServiceUseCase {
       }
     }
 
+    if (input.sortOrder !== undefined && input.sortOrder !== existing.sortOrder) {
+      const effectiveCategoryId =
+        input.categoryId !== undefined ? input.categoryId : existing.categoryId;
+
+      const duplicateSortOrder = await prisma.service.findFirst({
+        where: {
+          sortOrder: input.sortOrder,
+          id: { not: id },
+          ...(effectiveCategoryId
+            ? { categoryId: effectiveCategoryId }
+            : { categoryId: null }),
+        },
+      });
+
+      if (duplicateSortOrder) {
+        const scope = effectiveCategoryId
+          ? `di kategori ini`
+          : `tanpa kategori`;
+        throw new ConflictError(
+          `Sort order ${input.sortOrder} sudah digunakan oleh service lain ${scope}`
+        );
+      }
+    }
+
     const service = await prisma.service.update({
       where: { id },
       data: {

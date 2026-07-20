@@ -38,6 +38,23 @@ export class CreateServiceUseCase {
       }
     }
 
+    const sortOrder = input.sortOrder ?? 0;
+    const duplicateSortOrder = await prisma.service.findFirst({
+      where: {
+        sortOrder,
+        ...(input.categoryId ? { categoryId: input.categoryId } : { categoryId: null }),
+      },
+    });
+
+    if (duplicateSortOrder) {
+      const scope = input.categoryId
+        ? `di kategori ini`
+        : `tanpa kategori`;
+      throw new ConflictError(
+        `Sort order ${sortOrder} sudah digunakan oleh service lain ${scope}`
+      );
+    }
+
     const service = await prisma.service.create({
       data: {
         name: input.name,
@@ -53,7 +70,7 @@ export class CreateServiceUseCase {
         ogImageUrl: input.ogImageUrl ?? null,
         iconName: input.iconName ?? null,
         featured: input.featured ?? false,
-        sortOrder: input.sortOrder ?? 0,
+        sortOrder,
         isPublished: input.isPublished ?? false,
       },
       include: serviceInclude,

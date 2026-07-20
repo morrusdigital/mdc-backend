@@ -31,6 +31,18 @@ export class UpdateServiceCategoryUseCase {
       }
     }
 
+    if (input.sortOrder !== undefined && input.sortOrder !== existing.sortOrder) {
+      const duplicateSortOrder = await prisma.serviceCategory.findFirst({
+        where: { sortOrder: input.sortOrder, id: { not: id } },
+      });
+
+      if (duplicateSortOrder) {
+        throw new ConflictError(
+          `Sort order ${input.sortOrder} sudah digunakan oleh kategori "${duplicateSortOrder.name}"`
+        );
+      }
+    }
+
     const category = await prisma.serviceCategory.update({
       where: { id },
       data: {

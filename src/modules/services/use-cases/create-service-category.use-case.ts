@@ -18,12 +18,23 @@ export class CreateServiceCategoryUseCase {
       throw new ConflictError("Service category slug is already in use");
     }
 
+    const sortOrder = input.sortOrder ?? 0;
+    const duplicateSortOrder = await prisma.serviceCategory.findFirst({
+      where: { sortOrder },
+    });
+
+    if (duplicateSortOrder) {
+      throw new ConflictError(
+        `Sort order ${sortOrder} sudah digunakan oleh kategori "${duplicateSortOrder.name}"`
+      );
+    }
+
     const category = await prisma.serviceCategory.create({
       data: {
         name: input.name,
         slug: input.slug,
         description: input.description ?? null,
-        sortOrder: input.sortOrder ?? 0,
+        sortOrder,
         isActive: input.isActive ?? true,
       },
     });
