@@ -8,7 +8,7 @@ import {
   cancelPublishJobs,
   upsertPublishJob,
 } from "../../../shared/scheduler/publish-jobs.service";
-import { mapCaseStudy, mapPublicCaseStudy } from "../case-studies.helpers";
+import { mapCaseStudy } from "../case-studies.helpers";
 
 const db = prisma as any;
 
@@ -18,7 +18,7 @@ export class ListCaseStudiesUseCase {
       orderBy: [{ createdAt: "desc" }],
     });
 
-    return items.map(mapPublicCaseStudy);
+    return items.map(mapCaseStudy);
   }
 }
 
@@ -32,7 +32,7 @@ export class GetCaseStudyByIdUseCase {
       throw new NotFoundError("Case study not found");
     }
 
-    return mapPublicCaseStudy(item);
+    return mapCaseStudy(item);
   }
 }
 
