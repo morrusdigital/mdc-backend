@@ -72,7 +72,7 @@ const workflowHandler =
       const item = await updateTestimonialWorkflowUseCase.execute(
         getId(req),
         action,
-        req.body.publishedAt
+        req.body?.publishedAt
       );
       sendSuccess(res, 200, "Testimonial workflow updated successfully", item);
     } catch (error) {

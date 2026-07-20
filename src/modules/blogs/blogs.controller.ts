@@ -93,7 +93,7 @@ const workflowHandler =
       const post = await updateBlogPostWorkflowUseCase.execute(
         getId(req),
         action,
-        req.body.publishedAt
+        req.body?.publishedAt
       );
       sendSuccess(res, 200, "Blog post workflow updated successfully", post);
     } catch (error) {

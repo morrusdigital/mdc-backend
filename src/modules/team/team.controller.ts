@@ -75,7 +75,7 @@ const workflowHandler =
       const item = await updateTeamMemberWorkflowUseCase.execute(
         getId(req),
         action,
-        req.body.publishedAt
+        req.body?.publishedAt
       );
       sendSuccess(res, 200, "Team member workflow updated successfully", item);
     } catch (error) {

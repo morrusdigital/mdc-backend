@@ -15,7 +15,7 @@ export class ListTeamMembersUseCase {
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
-    return items.map(mapPublicTeamMember);
+    return items.map(mapTeamMember);
   }
 }
 
@@ -29,7 +29,7 @@ export class GetTeamMemberByIdUseCase {
       throw new NotFoundError("Team member not found");
     }
 
-    return mapPublicTeamMember(item);
+    return mapTeamMember(item);
   }
 }
 

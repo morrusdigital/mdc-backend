@@ -75,7 +75,7 @@ const workflowHandler =
       const item = await updateCaseStudyWorkflowUseCase.execute(
         getId(req),
         action,
-        req.body.publishedAt
+        req.body?.publishedAt
       );
       sendSuccess(res, 200, "Case study workflow updated successfully", item);
     } catch (error) {

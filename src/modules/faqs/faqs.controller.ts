@@ -116,7 +116,7 @@ const workflowHandler =
       const item = await updateFaqItemWorkflowUseCase.execute(
         getId(req),
         action,
-        req.body.publishedAt
+        req.body?.publishedAt
       );
       sendSuccess(res, 200, "FAQ item workflow updated successfully", item);
     } catch (error) {

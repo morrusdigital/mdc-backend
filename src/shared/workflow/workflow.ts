@@ -13,7 +13,7 @@ export type WorkflowStatus = (typeof WorkflowStatuses)[keyof typeof WorkflowStat
 
 export const workflowTransitions: Record<WorkflowStatus, WorkflowStatus[]> = {
   [WorkflowStatuses.DRAFT]: [WorkflowStatuses.IN_REVIEW],
-  [WorkflowStatuses.IN_REVIEW]: [WorkflowStatuses.APPROVED],
+  [WorkflowStatuses.IN_REVIEW]: [WorkflowStatuses.APPROVED, WorkflowStatuses.IN_REVIEW],
   [WorkflowStatuses.APPROVED]: [WorkflowStatuses.PUBLISHED, WorkflowStatuses.SCHEDULED],
   [WorkflowStatuses.SCHEDULED]: [WorkflowStatuses.PUBLISHED],
   [WorkflowStatuses.PUBLISHED]: [WorkflowStatuses.ARCHIVED],

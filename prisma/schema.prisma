@@ -162,8 +162,8 @@ model Page {
   seoTitle       String?       @map("seo_title") @db.VarChar(255)
   seoDescription String?       @map("seo_description") @db.Text
   seoKeywords    Json?         @map("seo_keywords")
-  canonicalUrl   String?       @map("canonical_url") @db.VarChar(500)
-  ogImageUrl     String?       @map("og_image_url") @db.VarChar(500)
+  canonicalUrl   String?       @map("canonical_url") @db.Text
+  ogImageUrl     String?       @map("og_image_url") @db.Text
   isPublished    Boolean       @default(false) @map("is_published")
   publishedAt    DateTime?     @map("published_at")
   createdAt      DateTime      @default(now()) @map("created_at")
@@ -216,8 +216,8 @@ model Service {
   seoTitle         String?          @map("seo_title") @db.VarChar(255)
   seoDescription   String?          @map("seo_description") @db.Text
   seoKeywords      Json?            @map("seo_keywords")
-  canonicalUrl     String?          @map("canonical_url") @db.VarChar(500)
-  ogImageUrl       String?          @map("og_image_url") @db.VarChar(500)
+  canonicalUrl     String?          @map("canonical_url") @db.Text
+  ogImageUrl       String?          @map("og_image_url") @db.Text
   iconName         String?          @map("icon_name") @db.VarChar(100)
   featured         Boolean          @default(false)
   sortOrder        Int              @default(0) @map("sort_order")
@@ -249,7 +249,7 @@ model NavigationItem {
   parentId  String?          @map("parent_id") @db.Uuid
   pageId    String?          @map("page_id") @db.Uuid
   label     String           @db.VarChar(255)
-  url       String           @db.VarChar(500)
+  url       String           @db.Text
   target    String?          @db.VarChar(50)
   sortOrder Int              @default(0) @map("sort_order")
   isActive  Boolean          @default(true) @map("is_active")
@@ -284,8 +284,8 @@ model SiteSetting {
 
 model RedirectRule {
   id         String   @id @default(uuid()) @db.Uuid
-  sourcePath String   @unique @map("source_path") @db.VarChar(500)
-  targetPath String   @map("target_path") @db.VarChar(500)
+  sourcePath String   @unique @map("source_path") @db.Text
+  targetPath String   @map("target_path") @db.Text
   statusCode Int      @map("status_code")
   isActive   Boolean  @default(true) @map("is_active")
   note       String?  @db.Text
@@ -305,7 +305,7 @@ model Lead {
   message      String?          @db.Text
   status       LeadStatus       @default(NEW)
   source       String?          @db.VarChar(255)
-  sourcePage   String?          @map("source_page") @db.VarChar(500)
+  sourcePage   String?          @map("source_page") @db.Text
   meta         Json?
   createdAt    DateTime         @default(now()) @map("created_at")
   updatedAt    DateTime         @updatedAt @map("updated_at")
@@ -354,8 +354,8 @@ model MediaAsset {
   originalName String   @map("original_name") @db.VarChar(255)
   mimeType     String   @map("mime_type") @db.VarChar(100)
   size         Int
-  diskPath     String   @map("disk_path") @db.VarChar(500)
-  publicUrl    String   @map("public_url") @db.VarChar(500)
+  diskPath     String   @map("disk_path") @db.Text
+  publicUrl    String   @map("public_url") @db.Text
   altText      String?  @map("alt_text") @db.VarChar(255)
   title        String?  @db.VarChar(255)
   uploadedById Int      @map("uploaded_by_id")
@@ -393,7 +393,7 @@ model AuditLog {
   summary    String   @db.Text
   payload    Json?
   ipAddress  String?  @map("ip_address") @db.VarChar(100)
-  userAgent  String?  @map("user_agent") @db.VarChar(500)
+  userAgent  String?  @map("user_agent") @db.Text
   createdAt  DateTime @default(now()) @map("created_at")
   actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
 
@@ -455,8 +455,8 @@ model BlogPost {
   seoTitle             String?        @map("seo_title") @db.VarChar(255)
   seoDescription       String?        @map("seo_description") @db.Text
   seoKeywords          Json?          @map("seo_keywords")
-  canonicalUrl         String?        @map("canonical_url") @db.VarChar(500)
-  ogImageUrl           String?        @map("og_image_url") @db.VarChar(500)
+  canonicalUrl         String?        @map("canonical_url") @db.Text
+  ogImageUrl           String?        @map("og_image_url") @db.Text
   featured             Boolean        @default(false)
   status               WorkflowStatus @default(DRAFT)
   publishedAt          DateTime?      @map("published_at")
@@ -503,8 +503,8 @@ model CaseStudy {
   seoTitle             String?        @map("seo_title") @db.VarChar(255)
   seoDescription       String?        @map("seo_description") @db.Text
   seoKeywords          Json?          @map("seo_keywords")
-  canonicalUrl         String?        @map("canonical_url") @db.VarChar(500)
-  ogImageUrl           String?        @map("og_image_url") @db.VarChar(500)
+  canonicalUrl         String?        @map("canonical_url") @db.Text
+  ogImageUrl           String?        @map("og_image_url") @db.Text
   featured             Boolean        @default(false)
   status               WorkflowStatus @default(DRAFT)
   publishedAt          DateTime?      @map("published_at")
@@ -547,13 +547,13 @@ model TeamMember {
   slug                 String         @unique @db.VarChar(255)
   jobTitle             String         @map("job_title") @db.VarChar(255)
   bio                  String         @db.Text
-  photoUrl             String?        @map("photo_url") @db.VarChar(500)
-  linkedinUrl          String?        @map("linkedin_url") @db.VarChar(500)
+  photoUrl             String?        @map("photo_url") @db.Text
+  linkedinUrl          String?        @map("linkedin_url") @db.Text
   seoTitle             String?        @map("seo_title") @db.VarChar(255)
   seoDescription       String?        @map("seo_description") @db.Text
   seoKeywords          Json?          @map("seo_keywords")
-  canonicalUrl         String?        @map("canonical_url") @db.VarChar(500)
-  ogImageUrl           String?        @map("og_image_url") @db.VarChar(500)
+  canonicalUrl         String?        @map("canonical_url") @db.Text
+  ogImageUrl           String?        @map("og_image_url") @db.Text
   sortOrder            Int            @default(0) @map("sort_order")
   featured             Boolean        @default(false)
   status               WorkflowStatus @default(DRAFT)
