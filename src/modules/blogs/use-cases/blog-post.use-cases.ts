@@ -109,7 +109,7 @@ export class ListBlogPostsUseCase {
       orderBy: [{ createdAt: "desc" }],
     });
 
-    return posts.map(mapPublicBlogPost);
+    return posts.map(mapBlogPost);
   }
 }
 
@@ -124,7 +124,7 @@ export class GetBlogPostByIdUseCase {
       throw new NotFoundError("Blog post not found");
     }
 
-    return mapPublicBlogPost(post);
+    return mapBlogPost(post);
   }
 }
 
@@ -350,7 +350,7 @@ export class ListPublicBlogPostsUseCase {
       orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
     });
 
-    return posts.map(mapBlogPost);
+    return posts.map(mapPublicBlogPost);
   }
 }
 
@@ -368,6 +368,6 @@ export class GetPublicBlogPostBySlugUseCase {
       throw new NotFoundError("Blog post not found");
     }
 
-    return mapBlogPost(post);
+    return mapPublicBlogPost(post);
   }
 }
