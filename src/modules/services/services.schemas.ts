@@ -113,17 +113,16 @@ export const createServiceSchema = {
     seoTitle: z
       .string()
       .trim()
-      .min(1, { message: "SEO title tidak boleh kosong" })
-      .max(255, { message: "SEO title maksimal 255 karakter" })
-      .optional(),
+      .min(1, { message: "SEO title wajib diisi" })
+      .max(70, { message: "SEO title maksimal 70 karakter (rekomendasi Google: 50-60 karakter)" }),
     seoDescription: z
       .string()
       .trim()
-      .min(1, { message: "SEO description tidak boleh kosong" })
-      .optional(),
+      .min(1, { message: "SEO description wajib diisi" })
+      .max(160, { message: "SEO description maksimal 160 karakter (rekomendasi Google: 150-160 karakter)" }),
     seoKeywords: z
-      .array(z.string().trim().min(1, { message: "Keyword tidak boleh kosong" }))
-      .optional(),
+      .array(z.string().trim().min(1, { message: "Keyword tidak boleh kosong" }).max(50, { message: "Setiap keyword maksimal 50 karakter" }))
+      .max(10, { message: "Maksimal 10 keyword" }),
     canonicalUrl: z
       .string()
       .url({ message: "Canonical URL harus berupa URL yang valid" })
@@ -179,15 +178,17 @@ export const updateServiceSchema = {
         .string()
         .trim()
         .min(1, { message: "SEO title tidak boleh kosong" })
-        .max(255, { message: "SEO title maksimal 255 karakter" })
+        .max(70, { message: "SEO title maksimal 70 karakter (rekomendasi Google: 50-60 karakter)" })
         .optional(),
       seoDescription: z
         .string()
         .trim()
         .min(1, { message: "SEO description tidak boleh kosong" })
+        .max(160, { message: "SEO description maksimal 160 karakter (rekomendasi Google: 150-160 karakter)" })
         .optional(),
       seoKeywords: z
-        .array(z.string().trim().min(1, { message: "Keyword tidak boleh kosong" }))
+        .array(z.string().trim().min(1, { message: "Keyword tidak boleh kosong" }).max(50, { message: "Setiap keyword maksimal 50 karakter" }))
+        .max(10, { message: "Maksimal 10 keyword" })
         .optional(),
       canonicalUrl: z
         .string()
