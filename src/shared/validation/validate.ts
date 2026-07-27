@@ -24,7 +24,14 @@ export const validateRequest =
       }
 
       if (schemas.params) {
-        req.params = schemas.params.parse(req.params) as any;
+        const parsedParams = schemas.params.parse(req.params) as any;
+
+        Object.defineProperty(req, "params", {
+          value: parsedParams,
+          writable: true,
+          configurable: true,
+          enumerable: true,
+        });
       }
 
       if (schemas.query) {

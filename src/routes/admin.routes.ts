@@ -7,6 +7,8 @@ import pagesRoutes from "../modules/pages/pages.routes";
 import {
   createProject,
   deleteProject,
+  getProjectById,
+  listProjects,
   updateProject,
 } from "../modules/projects/projects.controller";
 import {
@@ -61,6 +63,19 @@ router.use("/", notificationsRoutes);
 router.use("/", auditLogsRoutes);
 router.use("/", dashboardRoutes);
 
+router.get(
+  "/projects",
+  requireAuth(),
+  requirePermission("projects.read"),
+  listProjects
+);
+router.get(
+  "/projects/:id",
+  requireAuth(),
+  requirePermission("projects.read"),
+  validateRequest(projectIdParamsSchema),
+  getProjectById
+);
 router.post(
   "/projects",
   requireAuth(),

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { PrismaProjectRepository } from "./repositories/prisma-project.repository";
 import { CreateProjectUseCase } from "./use-cases/create-project.use-case";
 import { DeleteProjectUseCase } from "./use-cases/delete-project.use-case";
+import { GetProjectByIdUseCase } from "./use-cases/get-project-by-id.use-case";
 import { GetProjectBySlugUseCase } from "./use-cases/get-project-by-slug.use-case";
 import { GetProjectsUseCase } from "./use-cases/get-projects.use-case";
 import { UpdateProjectUseCase } from "./use-cases/update-project.use-case";
@@ -9,6 +10,7 @@ import { sendSuccess } from "../../shared/http/response";
 
 const repository = new PrismaProjectRepository();
 const getProjectsUseCase = new GetProjectsUseCase(repository);
+const getProjectByIdUseCase = new GetProjectByIdUseCase(repository);
 const getProjectBySlugUseCase = new GetProjectBySlugUseCase(repository);
 const createProjectUseCase = new CreateProjectUseCase(repository);
 const updateProjectUseCase = new UpdateProjectUseCase(repository);
@@ -42,6 +44,21 @@ export const getProjectBySlug = async (
   try {
     const project = await getProjectBySlugUseCase.execute(
       getStringParam(req.params.slug)
+    );
+    sendSuccess(res, 200, "Project retrieved successfully", project.toJSON());
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProjectById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const project = await getProjectByIdUseCase.execute(
+      getStringParam(req.params.id)
     );
     sendSuccess(res, 200, "Project retrieved successfully", project.toJSON());
   } catch (error) {
