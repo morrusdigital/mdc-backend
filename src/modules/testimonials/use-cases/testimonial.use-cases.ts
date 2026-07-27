@@ -15,7 +15,7 @@ export class ListTestimonialsUseCase {
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
-    return items.map(mapPublicTestimonial);
+    return items.map(mapTestimonial);
   }
 }
 
