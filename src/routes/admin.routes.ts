@@ -35,6 +35,8 @@ import mediaRoutes from "../modules/media/media.routes";
 import notificationsRoutes from "../modules/notifications/notifications.routes";
 import auditLogsRoutes from "../modules/audit-logs/audit-logs.routes";
 import dashboardRoutes from "../modules/dashboard/dashboard.routes";
+import { academyProgramsAdminRoutes } from "../modules/academy-programs/academy-programs.routes";
+import { academyEventsAdminRoutes } from "../modules/academy-events/academy-events.routes";
 import {
   requireAuth,
   requirePermission,
@@ -62,6 +64,8 @@ router.use("/", mediaRoutes);
 router.use("/", notificationsRoutes);
 router.use("/", auditLogsRoutes);
 router.use("/", dashboardRoutes);
+router.use("/", academyProgramsAdminRoutes);
+router.use("/", academyEventsAdminRoutes);
 
 router.get(
   "/projects",
