@@ -147,6 +147,14 @@
     {
       "name": "Admin Dashboard",
       "description": "Ringkasan dashboard operasional CMS"
+    },
+    {
+      "name": "Public Industries",
+      "description": "Katalog solusi industri yang sudah published"
+    },
+    {
+      "name": "Admin Industries",
+      "description": "Manajemen industri dan solusi CMS"
     }
   ],
   "components": {
@@ -161,7 +169,10 @@
     "schemas": {
       "SuccessEnvelope": {
         "type": "object",
-        "required": ["success", "message"],
+        "required": [
+          "success",
+          "message"
+        ],
         "properties": {
           "success": {
             "type": "boolean",
@@ -175,7 +186,10 @@
       },
       "ErrorResponse": {
         "type": "object",
-        "required": ["success", "message"],
+        "required": [
+          "success",
+          "message"
+        ],
         "properties": {
           "success": {
             "type": "boolean",
@@ -226,7 +240,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "message": {
                 "type": "string",
@@ -247,7 +263,11 @@
       },
       "GalleryItem": {
         "type": "object",
-        "required": ["src", "alt", "caption"],
+        "required": [
+          "src",
+          "alt",
+          "caption"
+        ],
         "properties": {
           "src": {
             "type": "string",
@@ -324,14 +344,21 @@
             "items": {
               "type": "string"
             },
-            "example": ["Jadwal latihan", "Invoice"]
+            "example": [
+              "Jadwal latihan",
+              "Invoice"
+            ]
           },
           "technologies": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "example": ["React", "TypeScript", "Node.js"]
+            "example": [
+              "React",
+              "TypeScript",
+              "Node.js"
+            ]
           },
           "thumbnailLabel": {
             "type": "string",
@@ -654,7 +681,11 @@
                 "items": {
                   "type": "string"
                 },
-                "example": ["users.read", "roles.read", "projects.create"]
+                "example": [
+                  "users.read",
+                  "roles.read",
+                  "projects.create"
+                ]
               }
             }
           }
@@ -683,7 +714,10 @@
       },
       "LoginInput": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -699,7 +733,9 @@
       },
       "RefreshTokenInput": {
         "type": "object",
-        "required": ["refreshToken"],
+        "required": [
+          "refreshToken"
+        ],
         "properties": {
           "refreshToken": {
             "type": "string"
@@ -708,7 +744,10 @@
       },
       "CreateUserInput": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -730,7 +769,9 @@
             "items": {
               "type": "integer"
             },
-            "example": [1]
+            "example": [
+              1
+            ]
           }
         }
       },
@@ -752,7 +793,9 @@
       },
       "UpdateUserStatusInput": {
         "type": "object",
-        "required": ["isActive"],
+        "required": [
+          "isActive"
+        ],
         "properties": {
           "isActive": {
             "type": "boolean",
@@ -762,20 +805,28 @@
       },
       "AssignUserRolesInput": {
         "type": "object",
-        "required": ["roleIds"],
+        "required": [
+          "roleIds"
+        ],
         "properties": {
           "roleIds": {
             "type": "array",
             "items": {
               "type": "integer"
             },
-            "example": [1, 2]
+            "example": [
+              1,
+              2
+            ]
           }
         }
       },
       "CreateRoleInput": {
         "type": "object",
-        "required": ["code", "name"],
+        "required": [
+          "code",
+          "name"
+        ],
         "properties": {
           "code": {
             "type": "string",
@@ -794,7 +845,12 @@
             "items": {
               "type": "integer"
             },
-            "example": [5, 6, 17, 18]
+            "example": [
+              5,
+              6,
+              17,
+              18
+            ]
           }
         }
       },
@@ -815,14 +871,20 @@
       },
       "AssignRolePermissionsInput": {
         "type": "object",
-        "required": ["permissionIds"],
+        "required": [
+          "permissionIds"
+        ],
         "properties": {
           "permissionIds": {
             "type": "array",
             "items": {
               "type": "integer"
             },
-            "example": [1, 2, 3]
+            "example": [
+              1,
+              2,
+              3
+            ]
           }
         }
       },
@@ -936,7 +998,11 @@
       },
       "PageSectionInput": {
         "type": "object",
-        "required": ["type", "sortOrder", "content"],
+        "required": [
+          "type",
+          "sortOrder",
+          "content"
+        ],
         "properties": {
           "type": {
             "type": "string",
@@ -972,7 +1038,10 @@
       },
       "CreatePageInput": {
         "type": "object",
-        "required": ["title", "slug"],
+        "required": [
+          "title",
+          "slug"
+        ],
         "properties": {
           "title": {
             "type": "string"
@@ -1031,7 +1100,9 @@
       },
       "ReplacePageSectionsInput": {
         "type": "object",
-        "required": ["sections"],
+        "required": [
+          "sections"
+        ],
         "properties": {
           "sections": {
             "type": "array",
@@ -1043,7 +1114,9 @@
       },
       "PublishPageInput": {
         "type": "object",
-        "required": ["isPublished"],
+        "required": [
+          "isPublished"
+        ],
         "properties": {
           "isPublished": {
             "type": "boolean",
@@ -1148,7 +1221,10 @@
       },
       "CreateServiceCategoryInput": {
         "type": "object",
-        "required": ["name", "slug"],
+        "required": [
+          "name",
+          "slug"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -1191,7 +1267,10 @@
       },
       "CreateServiceInput": {
         "type": "object",
-        "required": ["name", "slug"],
+        "required": [
+          "name",
+          "slug"
+        ],
         "properties": {
           "categoryId": {
             "type": "string",
@@ -1361,7 +1440,11 @@
       },
       "NavigationItemInput": {
         "type": "object",
-        "required": ["label", "url", "sortOrder"],
+        "required": [
+          "label",
+          "url",
+          "sortOrder"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1397,7 +1480,9 @@
       },
       "ReplaceNavigationItemsInput": {
         "type": "object",
-        "required": ["items"],
+        "required": [
+          "items"
+        ],
         "properties": {
           "items": {
             "type": "array",
@@ -1445,7 +1530,11 @@
       },
       "SiteSettingEntryInput": {
         "type": "object",
-        "required": ["key", "value", "valueType"],
+        "required": [
+          "key",
+          "value",
+          "valueType"
+        ],
         "properties": {
           "key": {
             "type": "string"
@@ -1463,7 +1552,9 @@
       },
       "UpsertSettingsGroupInput": {
         "type": "object",
-        "required": ["items"],
+        "required": [
+          "items"
+        ],
         "properties": {
           "items": {
             "type": "array",
@@ -1480,7 +1571,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1499,7 +1592,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/Project"
@@ -1515,7 +1610,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1534,7 +1631,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/AuthUserProfile"
@@ -1550,7 +1649,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1569,7 +1670,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/Role"
@@ -1585,7 +1688,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1604,7 +1709,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/TokenBundle"
@@ -1620,7 +1727,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1639,7 +1748,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/Page"
@@ -1655,7 +1766,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1674,7 +1787,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/ServiceCategory"
@@ -1690,7 +1805,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1709,7 +1826,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/Service"
@@ -1725,7 +1844,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1744,7 +1865,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/NavigationMenu"
@@ -1760,7 +1883,9 @@
           },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "type": "array",
@@ -1785,7 +1910,9 @@
       },
       "WorkflowScheduleInput": {
         "type": "object",
-        "required": ["publishedAt"],
+        "required": [
+          "publishedAt"
+        ],
         "properties": {
           "publishedAt": {
             "type": "string",
@@ -1796,49 +1923,117 @@
       "SeoBlock": {
         "type": "object",
         "properties": {
-          "title": { "type": "string", "nullable": true },
-          "description": { "type": "string", "nullable": true },
-          "keywords": { "type": "array", "items": { "type": "string" } },
-          "canonicalUrl": { "type": "string", "nullable": true },
-          "ogImageUrl": { "type": "string", "nullable": true }
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "canonicalUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ogImageUrl": {
+            "type": "string",
+            "nullable": true
+          }
         }
       },
       "RedirectRule": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "sourcePath": { "type": "string" },
-          "targetPath": { "type": "string" },
-          "statusCode": { "type": "integer", "enum": [301, 302] },
-          "isActive": { "type": "boolean" },
-          "note": { "type": "string", "nullable": true }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourcePath": {
+            "type": "string"
+          },
+          "targetPath": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "integer",
+            "enum": [
+              301,
+              302
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
         }
       },
       "RedirectRuleListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/RedirectRule" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RedirectRule"
+                }
+              }
+            }
+          }
         ]
       },
       "RedirectRuleResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/RedirectRule" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/RedirectRule"
+              }
+            }
+          }
         ]
       },
       "RedirectResolveResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
           {
             "type": "object",
             "properties": {
               "data": {
                 "type": "object",
                 "properties": {
-                  "matched": { "type": "boolean" },
-                  "sourcePath": { "type": "string" },
-                  "targetPath": { "type": "string", "nullable": true },
-                  "statusCode": { "type": "integer", "nullable": true }
+                  "matched": {
+                    "type": "boolean"
+                  },
+                  "sourcePath": {
+                    "type": "string"
+                  },
+                  "targetPath": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "statusCode": {
+                    "type": "integer",
+                    "nullable": true
+                  }
                 }
               }
             }
@@ -1848,123 +2043,303 @@
       "BlogCategory": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" },
-          "description": { "type": "string", "nullable": true },
-          "sortOrder": { "type": "integer" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
         }
       },
       "Tag": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
         }
       },
       "BlogPost": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "categoryId": { "type": "string", "format": "uuid", "nullable": true },
-          "title": { "type": "string" },
-          "slug": { "type": "string" },
-          "excerpt": { "type": "string", "nullable": true },
-          "content": { "type": "object", "additionalProperties": true },
-          "seoTitle": { "type": "string", "nullable": true },
-          "seoDescription": { "type": "string", "nullable": true },
-          "seoKeywords": { "type": "array", "items": { "type": "string" }, "nullable": true },
-          "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
-          "publishedAt": { "type": "string", "format": "date-time", "nullable": true },
-          "seo": { "$ref": "#/components/schemas/SeoBlock" },
-          "category": { "$ref": "#/components/schemas/BlogCategory", "nullable": true },
-          "tags": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "excerpt": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "seoTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "seoDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "seoKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SeoBlock"
+          },
+          "category": {
+            "$ref": "#/components/schemas/BlogCategory",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          }
         }
       },
       "CaseStudy": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "title": { "type": "string" },
-          "slug": { "type": "string" },
-          "clientName": { "type": "string" },
-          "industry": { "type": "string" },
-          "serviceType": { "type": "string" },
-          "summary": { "type": "string" },
-          "challenge": { "type": "string" },
-          "solution": { "type": "string" },
-          "outcome": { "type": "string" },
-          "results": { "type": "object", "additionalProperties": true, "nullable": true },
-          "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
-          "seo": { "$ref": "#/components/schemas/SeoBlock" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "clientName": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "serviceType": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "solution": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "results": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SeoBlock"
+          }
         }
       },
       "Testimonial": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "role": { "type": "string" },
-          "company": { "type": "string" },
-          "quote": { "type": "string" },
-          "rating": { "type": "integer", "nullable": true },
-          "sortOrder": { "type": "integer" },
-          "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
-          "seo": { "$ref": "#/components/schemas/SeoBlock" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SeoBlock"
+          }
         }
       },
       "TeamMember": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" },
-          "jobTitle": { "type": "string" },
-          "bio": { "type": "string" },
-          "photoUrl": { "type": "string", "nullable": true },
-          "linkedinUrl": { "type": "string", "nullable": true },
-          "sortOrder": { "type": "integer" },
-          "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "jobTitle": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "linkedinUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          }
         }
       },
       "FaqCategory": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" },
-          "description": { "type": "string", "nullable": true },
-          "sortOrder": { "type": "integer" },
-          "isActive": { "type": "boolean" }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
         }
       },
       "FaqItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "categoryId": { "type": "string", "format": "uuid", "nullable": true },
-          "question": { "type": "string" },
-          "answer": { "type": "string" },
-          "sortOrder": { "type": "integer" },
-          "featured": { "type": "boolean" },
-          "status": { "$ref": "#/components/schemas/WorkflowStatus" },
-          "category": { "$ref": "#/components/schemas/FaqCategory", "nullable": true }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "category": {
+            "$ref": "#/components/schemas/FaqCategory",
+            "nullable": true
+          }
         }
       },
       "FaqGroup": {
         "allOf": [
-          { "$ref": "#/components/schemas/FaqCategory" },
+          {
+            "$ref": "#/components/schemas/FaqCategory"
+          },
           {
             "type": "object",
             "properties": {
               "items": {
                 "type": "array",
-                "items": { "$ref": "#/components/schemas/FaqItem" }
+                "items": {
+                  "$ref": "#/components/schemas/FaqItem"
+                }
               }
             }
           }
@@ -1972,86 +2347,239 @@
       },
       "BlogPostResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/BlogPost" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/BlogPost"
+              }
+            }
+          }
         ]
       },
       "BlogPostListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/BlogPost" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BlogPost"
+                }
+              }
+            }
+          }
         ]
       },
       "BlogCategoryListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/BlogCategory" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BlogCategory"
+                }
+              }
+            }
+          }
         ]
       },
       "TagListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Tag"
+                }
+              }
+            }
+          }
         ]
       },
       "CaseStudyResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/CaseStudy" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/CaseStudy"
+              }
+            }
+          }
         ]
       },
       "CaseStudyListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/CaseStudy" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CaseStudy"
+                }
+              }
+            }
+          }
         ]
       },
       "TestimonialResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/Testimonial" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Testimonial"
+              }
+            }
+          }
         ]
       },
       "TestimonialListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/Testimonial" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Testimonial"
+                }
+              }
+            }
+          }
         ]
       },
       "TeamMemberResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/TeamMember" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TeamMember"
+              }
+            }
+          }
         ]
       },
       "TeamMemberListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/TeamMember" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TeamMember"
+                }
+              }
+            }
+          }
         ]
       },
       "FaqCategoryListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqCategory" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FaqCategory"
+                }
+              }
+            }
+          }
         ]
       },
       "FaqItemResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/FaqItem" } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/FaqItem"
+              }
+            }
+          }
         ]
       },
       "FaqItemListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqItem" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FaqItem"
+                }
+              }
+            }
+          }
         ]
       },
       "FaqGroupListResponse": {
         "allOf": [
-          { "$ref": "#/components/schemas/SuccessEnvelope" },
-          { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/FaqGroup" } } } }
+          {
+            "$ref": "#/components/schemas/SuccessEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FaqGroup"
+                }
+              }
+            }
+          }
         ]
       },
       "FormsFoundationResponse": {
@@ -2137,7 +2665,9 @@
   "paths": {
     "/": {
       "get": {
-        "tags": ["General"],
+        "tags": [
+          "General"
+        ],
         "summary": "Welcome Home",
         "description": "Mengembalikan status running dari API.",
         "responses": {
@@ -2159,7 +2689,9 @@
     },
     "/db-test": {
       "get": {
-        "tags": ["General"],
+        "tags": [
+          "General"
+        ],
         "summary": "Database Connection Test",
         "description": "Menguji koneksi PostgreSQL.",
         "responses": {
@@ -2181,7 +2713,9 @@
     },
     "/api/public/portfolio": {
       "get": {
-        "tags": ["Public Portfolio"],
+        "tags": [
+          "Public Portfolio"
+        ],
         "summary": "List public portfolio",
         "responses": {
           "200": {
@@ -2202,7 +2736,9 @@
     },
     "/api/public/portfolio/{slug}": {
       "get": {
-        "tags": ["Public Portfolio"],
+        "tags": [
+          "Public Portfolio"
+        ],
         "summary": "Get public portfolio detail",
         "parameters": [
           {
@@ -2239,7 +2775,9 @@
     },
     "/api/public/pages/{slug}": {
       "get": {
-        "tags": ["Public Pages"],
+        "tags": [
+          "Public Pages"
+        ],
         "summary": "Get public page by slug",
         "parameters": [
           {
@@ -2273,7 +2811,9 @@
     },
     "/api/public/services": {
       "get": {
-        "tags": ["Public Services"],
+        "tags": [
+          "Public Services"
+        ],
         "summary": "List public services",
         "parameters": [
           {
@@ -2305,7 +2845,9 @@
     },
     "/api/public/services/{slug}": {
       "get": {
-        "tags": ["Public Services"],
+        "tags": [
+          "Public Services"
+        ],
         "summary": "Get public service by slug",
         "parameters": [
           {
@@ -2339,7 +2881,9 @@
     },
     "/api/public/navigation/{code}": {
       "get": {
-        "tags": ["Public Navigation"],
+        "tags": [
+          "Public Navigation"
+        ],
         "summary": "Get public navigation menu by code",
         "parameters": [
           {
@@ -2374,7 +2918,9 @@
     },
     "/api/public/settings/{group}": {
       "get": {
-        "tags": ["Public Settings"],
+        "tags": [
+          "Public Settings"
+        ],
         "summary": "Get public site settings by group",
         "parameters": [
           {
@@ -2406,7 +2952,9 @@
     },
     "/api/forms": {
       "get": {
-        "tags": ["Forms"],
+        "tags": [
+          "Forms"
+        ],
         "summary": "Forms foundation health",
         "responses": {
           "200": {
@@ -2424,7 +2972,9 @@
     },
     "/api/admin/auth/login": {
       "post": {
-        "tags": ["Admin Auth"],
+        "tags": [
+          "Admin Auth"
+        ],
         "summary": "Login admin",
         "requestBody": {
           "required": true,
@@ -2461,7 +3011,9 @@
     },
     "/api/admin/auth/refresh": {
       "post": {
-        "tags": ["Admin Auth"],
+        "tags": [
+          "Admin Auth"
+        ],
         "summary": "Refresh access token admin",
         "requestBody": {
           "required": true,
@@ -2498,7 +3050,9 @@
     },
     "/api/admin/auth/logout": {
       "post": {
-        "tags": ["Admin Auth"],
+        "tags": [
+          "Admin Auth"
+        ],
         "summary": "Logout admin",
         "security": [
           {
@@ -2524,7 +3078,9 @@
     },
     "/api/admin/auth/me": {
       "get": {
-        "tags": ["Admin Auth"],
+        "tags": [
+          "Admin Auth"
+        ],
         "summary": "Get current admin profile",
         "security": [
           {
@@ -2550,7 +3106,9 @@
     },
     "/api/admin/users": {
       "get": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "List admin users",
         "security": [
           {
@@ -2577,7 +3135,9 @@
         }
       },
       "post": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "Create admin user",
         "security": [
           {
@@ -2622,7 +3182,9 @@
     },
     "/api/admin/users/{id}": {
       "get": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "Get admin user detail",
         "security": [
           {
@@ -2662,7 +3224,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "Update admin user",
         "security": [
           {
@@ -2720,7 +3284,9 @@
     },
     "/api/admin/users/{id}/status": {
       "patch": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "Activate or deactivate admin user",
         "security": [
           {
@@ -2775,7 +3341,9 @@
     },
     "/api/admin/users/{id}/roles": {
       "put": {
-        "tags": ["Admin Users"],
+        "tags": [
+          "Admin Users"
+        ],
         "summary": "Assign roles to admin user",
         "security": [
           {
@@ -2830,7 +3398,9 @@
     },
     "/api/admin/roles": {
       "get": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "List roles",
         "security": [
           {
@@ -2857,7 +3427,9 @@
         }
       },
       "post": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "Create role",
         "security": [
           {
@@ -2902,7 +3474,9 @@
     },
     "/api/admin/roles/{id}": {
       "get": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "Get role detail",
         "security": [
           {
@@ -2942,7 +3516,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "Update role",
         "security": [
           {
@@ -2998,7 +3574,9 @@
         }
       },
       "delete": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "Delete role",
         "security": [
           {
@@ -3040,7 +3618,9 @@
     },
     "/api/admin/roles/{id}/permissions": {
       "put": {
-        "tags": ["Admin Roles"],
+        "tags": [
+          "Admin Roles"
+        ],
         "summary": "Assign permissions to role",
         "security": [
           {
@@ -3095,7 +3675,9 @@
     },
     "/api/admin/permissions": {
       "get": {
-        "tags": ["Admin Permissions"],
+        "tags": [
+          "Admin Permissions"
+        ],
         "summary": "List permissions",
         "security": [
           {
@@ -3124,7 +3706,9 @@
     },
     "/api/admin/projects": {
       "post": {
-        "tags": ["Admin Projects"],
+        "tags": [
+          "Admin Projects"
+        ],
         "summary": "Create project from admin area",
         "security": [
           {
@@ -3169,7 +3753,9 @@
     },
     "/api/admin/projects/{id}": {
       "put": {
-        "tags": ["Admin Projects"],
+        "tags": [
+          "Admin Projects"
+        ],
         "summary": "Replace project from admin area",
         "security": [
           {
@@ -3226,7 +3812,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Projects"],
+        "tags": [
+          "Admin Projects"
+        ],
         "summary": "Patch project from admin area",
         "security": [
           {
@@ -3283,7 +3871,9 @@
         }
       },
       "delete": {
-        "tags": ["Admin Projects"],
+        "tags": [
+          "Admin Projects"
+        ],
         "summary": "Delete project from admin area",
         "security": [
           {
@@ -3326,7 +3916,9 @@
     },
     "/api/admin/pages": {
       "get": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "List pages",
         "security": [
           {
@@ -3353,7 +3945,9 @@
         }
       },
       "post": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Create page",
         "security": [
           {
@@ -3398,7 +3992,9 @@
     },
     "/api/admin/pages/{id}": {
       "get": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Get page detail",
         "security": [
           {
@@ -3442,7 +4038,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Update page",
         "security": [
           {
@@ -3499,7 +4097,9 @@
         }
       },
       "delete": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Delete page",
         "security": [
           {
@@ -3545,7 +4145,9 @@
     },
     "/api/admin/pages/{id}/sections": {
       "put": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Replace page sections",
         "security": [
           {
@@ -3601,7 +4203,9 @@
     },
     "/api/admin/pages/{id}/publish": {
       "patch": {
-        "tags": ["Admin Pages"],
+        "tags": [
+          "Admin Pages"
+        ],
         "summary": "Update publish status page",
         "security": [
           {
@@ -3657,7 +4261,9 @@
     },
     "/api/admin/service-categories": {
       "get": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "List service categories",
         "security": [
           {
@@ -3684,7 +4290,9 @@
         }
       },
       "post": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Create service category",
         "security": [
           {
@@ -3729,7 +4337,9 @@
     },
     "/api/admin/service-categories/{id}": {
       "patch": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Update service category",
         "security": [
           {
@@ -3786,7 +4396,9 @@
         }
       },
       "delete": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Delete service category",
         "security": [
           {
@@ -3832,7 +4444,9 @@
     },
     "/api/admin/services": {
       "get": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "List services",
         "security": [
           {
@@ -3859,7 +4473,9 @@
         }
       },
       "post": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Create service",
         "security": [
           {
@@ -3904,7 +4520,9 @@
     },
     "/api/admin/services/{id}": {
       "get": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Get service detail",
         "security": [
           {
@@ -3948,7 +4566,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Update service",
         "security": [
           {
@@ -4005,7 +4625,9 @@
         }
       },
       "delete": {
-        "tags": ["Admin Services"],
+        "tags": [
+          "Admin Services"
+        ],
         "summary": "Delete service",
         "security": [
           {
@@ -4051,7 +4673,9 @@
     },
     "/api/admin/navigation/menus": {
       "get": {
-        "tags": ["Admin Navigation"],
+        "tags": [
+          "Admin Navigation"
+        ],
         "summary": "List navigation menus",
         "security": [
           {
@@ -4080,7 +4704,9 @@
     },
     "/api/admin/navigation/menus/{id}": {
       "get": {
-        "tags": ["Admin Navigation"],
+        "tags": [
+          "Admin Navigation"
+        ],
         "summary": "Get navigation menu detail",
         "security": [
           {
@@ -4124,7 +4750,9 @@
         }
       },
       "patch": {
-        "tags": ["Admin Navigation"],
+        "tags": [
+          "Admin Navigation"
+        ],
         "summary": "Update navigation menu metadata",
         "security": [
           {
@@ -4180,7 +4808,9 @@
     },
     "/api/admin/navigation/menus/{id}/items": {
       "put": {
-        "tags": ["Admin Navigation"],
+        "tags": [
+          "Admin Navigation"
+        ],
         "summary": "Replace navigation items",
         "security": [
           {
@@ -4236,7 +4866,9 @@
     },
     "/api/admin/settings": {
       "get": {
-        "tags": ["Admin Settings"],
+        "tags": [
+          "Admin Settings"
+        ],
         "summary": "List all site settings",
         "security": [
           {
@@ -4265,7 +4897,9 @@
     },
     "/api/admin/settings/{group}": {
       "get": {
-        "tags": ["Admin Settings"],
+        "tags": [
+          "Admin Settings"
+        ],
         "summary": "Get site settings by group",
         "security": [
           {
@@ -4305,7 +4939,9 @@
         }
       },
       "put": {
-        "tags": ["Admin Settings"],
+        "tags": [
+          "Admin Settings"
+        ],
         "summary": "Upsert site settings by group",
         "security": [
           {
@@ -4357,7 +4993,9 @@
     },
     "/api/public/blog-posts": {
       "get": {
-        "tags": ["Public Blogs"],
+        "tags": [
+          "Public Blogs"
+        ],
         "summary": "List public blog posts",
         "responses": {
           "200": {
@@ -4375,17 +5013,28 @@
     },
     "/api/public/blog-posts/{slug}": {
       "get": {
-        "tags": ["Public Blogs"],
+        "tags": [
+          "Public Blogs"
+        ],
         "summary": "Get public blog post by slug",
         "parameters": [
-          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Blog post berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostResponse"
+                }
               }
             }
           }
@@ -4394,14 +5043,18 @@
     },
     "/api/public/blog-categories": {
       "get": {
-        "tags": ["Public Blogs"],
+        "tags": [
+          "Public Blogs"
+        ],
         "summary": "List public blog categories",
         "responses": {
           "200": {
             "description": "Daftar blog categories berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogCategoryListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogCategoryListResponse"
+                }
               }
             }
           }
@@ -4410,14 +5063,18 @@
     },
     "/api/public/case-studies": {
       "get": {
-        "tags": ["Public Case Studies"],
+        "tags": [
+          "Public Case Studies"
+        ],
         "summary": "List public case studies",
         "responses": {
           "200": {
             "description": "Daftar case studies berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/CaseStudyListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStudyListResponse"
+                }
               }
             }
           }
@@ -4426,17 +5083,28 @@
     },
     "/api/public/case-studies/{slug}": {
       "get": {
-        "tags": ["Public Case Studies"],
+        "tags": [
+          "Public Case Studies"
+        ],
         "summary": "Get public case study by slug",
         "parameters": [
-          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Case study berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/CaseStudyResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStudyResponse"
+                }
               }
             }
           }
@@ -4445,14 +5113,18 @@
     },
     "/api/public/testimonials": {
       "get": {
-        "tags": ["Public Testimonials"],
+        "tags": [
+          "Public Testimonials"
+        ],
         "summary": "List public testimonials",
         "responses": {
           "200": {
             "description": "Daftar testimonials berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TestimonialListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TestimonialListResponse"
+                }
               }
             }
           }
@@ -4461,14 +5133,18 @@
     },
     "/api/public/team-members": {
       "get": {
-        "tags": ["Public Team"],
+        "tags": [
+          "Public Team"
+        ],
         "summary": "List public team members",
         "responses": {
           "200": {
             "description": "Daftar team members berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TeamMemberListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberListResponse"
+                }
               }
             }
           }
@@ -4477,17 +5153,28 @@
     },
     "/api/public/team-members/{slug}": {
       "get": {
-        "tags": ["Public Team"],
+        "tags": [
+          "Public Team"
+        ],
         "summary": "Get public team member by slug",
         "parameters": [
-          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Team member berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TeamMemberResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberResponse"
+                }
               }
             }
           }
@@ -4496,14 +5183,18 @@
     },
     "/api/public/faqs": {
       "get": {
-        "tags": ["Public FAQs"],
+        "tags": [
+          "Public FAQs"
+        ],
         "summary": "List public FAQs grouped by category",
         "responses": {
           "200": {
             "description": "Daftar FAQ berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/FaqGroupListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/FaqGroupListResponse"
+                }
               }
             }
           }
@@ -4512,7 +5203,9 @@
     },
     "/api/public/redirects/resolve": {
       "get": {
-        "tags": ["Public Redirects"],
+        "tags": [
+          "Public Redirects"
+        ],
         "summary": "Resolve public redirect by source path",
         "parameters": [
           {
@@ -4529,7 +5222,9 @@
             "description": "Redirect resolution completed",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RedirectResolveResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RedirectResolveResponse"
+                }
               }
             }
           }
@@ -4538,30 +5233,46 @@
     },
     "/api/admin/blog-posts": {
       "get": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "List blog posts",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar blog posts berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogPostListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostListResponse"
+                }
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "Create blog post",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Blog post berhasil dibuat",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostResponse"
+                }
               }
             }
           }
@@ -4570,64 +5281,120 @@
     },
     "/api/admin/blog-posts/{id}": {
       "get": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "Get blog post detail",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Blog post berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostResponse"
+                }
               }
             }
           }
         }
       },
       "patch": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "Update blog post",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Blog post berhasil diupdate",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogPostResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogPostResponse"
+                }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "Delete blog post",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Blog post berhasil dihapus" }
+          "200": {
+            "description": "Blog post berhasil dihapus"
+          }
         }
       }
     },
     "/api/admin/blog-categories": {
       "get": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "List blog categories",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar blog categories berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BlogCategoryListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BlogCategoryListResponse"
+                }
               }
             }
           }
@@ -4636,15 +5403,23 @@
     },
     "/api/admin/tags": {
       "get": {
-        "tags": ["Admin Blogs"],
+        "tags": [
+          "Admin Blogs"
+        ],
         "summary": "List tags",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar tags berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TagListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TagListResponse"
+                }
               }
             }
           }
@@ -4653,15 +5428,23 @@
     },
     "/api/admin/case-studies": {
       "get": {
-        "tags": ["Admin Case Studies"],
+        "tags": [
+          "Admin Case Studies"
+        ],
         "summary": "List case studies",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar case studies berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/CaseStudyListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/CaseStudyListResponse"
+                }
               }
             }
           }
@@ -4670,15 +5453,23 @@
     },
     "/api/admin/testimonials": {
       "get": {
-        "tags": ["Admin Testimonials"],
+        "tags": [
+          "Admin Testimonials"
+        ],
         "summary": "List testimonials",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar testimonials berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TestimonialListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TestimonialListResponse"
+                }
               }
             }
           }
@@ -4687,15 +5478,23 @@
     },
     "/api/admin/team-members": {
       "get": {
-        "tags": ["Admin Team"],
+        "tags": [
+          "Admin Team"
+        ],
         "summary": "List team members",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar team members berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/TeamMemberListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberListResponse"
+                }
               }
             }
           }
@@ -4704,15 +5503,23 @@
     },
     "/api/admin/faq-categories": {
       "get": {
-        "tags": ["Admin FAQs"],
+        "tags": [
+          "Admin FAQs"
+        ],
         "summary": "List FAQ categories",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar FAQ categories berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/FaqCategoryListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/FaqCategoryListResponse"
+                }
               }
             }
           }
@@ -4721,15 +5528,23 @@
     },
     "/api/admin/faq-items": {
       "get": {
-        "tags": ["Admin FAQs"],
+        "tags": [
+          "Admin FAQs"
+        ],
         "summary": "List FAQ items",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar FAQ items berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/FaqItemListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/FaqItemListResponse"
+                }
               }
             }
           }
@@ -4738,30 +5553,46 @@
     },
     "/api/admin/redirects": {
       "get": {
-        "tags": ["Admin Redirects"],
+        "tags": [
+          "Admin Redirects"
+        ],
         "summary": "List redirect rules",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Daftar redirect rules berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RedirectRuleListResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RedirectRuleListResponse"
+                }
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["Admin Redirects"],
+        "tags": [
+          "Admin Redirects"
+        ],
         "summary": "Create redirect rule",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Redirect rule berhasil dibuat",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RedirectRuleResponse"
+                }
               }
             }
           }
@@ -4770,47 +5601,93 @@
     },
     "/api/admin/redirects/{id}": {
       "get": {
-        "tags": ["Admin Redirects"],
+        "tags": [
+          "Admin Redirects"
+        ],
         "summary": "Get redirect rule detail",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Redirect rule berhasil diambil",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RedirectRuleResponse"
+                }
               }
             }
           }
         }
       },
       "patch": {
-        "tags": ["Admin Redirects"],
+        "tags": [
+          "Admin Redirects"
+        ],
         "summary": "Update redirect rule",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Redirect rule berhasil diupdate",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RedirectRuleResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/RedirectRuleResponse"
+                }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Admin Redirects"],
+        "tags": [
+          "Admin Redirects"
+        ],
         "summary": "Delete redirect rule",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -4821,7 +5698,9 @@
     },
     "/api/forms/leads": {
       "post": {
-        "tags": ["Forms Leads"],
+        "tags": [
+          "Forms Leads"
+        ],
         "summary": "Submit website lead form",
         "requestBody": {
           "required": true,
@@ -4829,57 +5708,141 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name", "email"],
+                "required": [
+                  "name",
+                  "email"
+                ],
                 "properties": {
-                  "name": { "type": "string" },
-                  "email": { "type": "string", "format": "email" },
-                  "phone": { "type": "string" },
-                  "company": { "type": "string" },
-                  "message": { "type": "string" },
-                  "source": { "type": "string", "example": "website_form" },
-                  "sourcePage": { "type": "string", "example": "/contact" },
-                  "website": { "type": "string", "description": "Hidden honeypot field, must stay empty" },
-                  "meta": { "type": "object", "additionalProperties": true }
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "website_form"
+                  },
+                  "sourcePage": {
+                    "type": "string",
+                    "example": "/contact"
+                  },
+                  "website": {
+                    "type": "string",
+                    "description": "Hidden honeypot field, must stay empty"
+                  },
+                  "meta": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": { "description": "Lead berhasil dibuat" },
-          "403": { "description": "Rate limit atau spam terdeteksi" }
+          "201": {
+            "description": "Lead berhasil dibuat"
+          },
+          "403": {
+            "description": "Rate limit atau spam terdeteksi"
+          }
         }
       }
     },
     "/api/admin/leads": {
       "get": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "List leads",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["new", "contacted", "qualified", "closed", "spam"] } },
-          { "name": "assignedUserId", "in": "query", "schema": { "type": "integer" } },
-          { "name": "search", "in": "query", "schema": { "type": "string" } }
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "new",
+                "contacted",
+                "qualified",
+                "closed",
+                "spam"
+              ]
+            }
+          },
+          {
+            "name": "assignedUserId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Leads berhasil diambil" }
+          "200": {
+            "description": "Leads berhasil diambil"
+          }
         }
       }
     },
     "/api/admin/leads/export": {
       "get": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Export leads as CSV",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["new", "contacted", "qualified", "closed", "spam"] } }
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "new",
+                "contacted",
+                "qualified",
+                "closed",
+                "spam"
+              ]
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "CSV export berhasil",
             "content": {
               "text/csv": {
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -4888,166 +5851,569 @@
     },
     "/api/admin/leads/{id}": {
       "get": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Get lead detail",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Lead berhasil diambil" }
+          "200": {
+            "description": "Lead berhasil diambil"
+          }
         }
       },
       "patch": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Update lead data",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Lead berhasil diupdate" }
+          "200": {
+            "description": "Lead berhasil diupdate"
+          }
         }
       }
     },
     "/api/admin/leads/{id}/status": {
       "patch": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Update lead status",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Status lead berhasil diupdate" }
+          "200": {
+            "description": "Status lead berhasil diupdate"
+          }
         }
       }
     },
     "/api/admin/leads/{id}/assignments": {
       "post": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Assign lead to user",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Lead berhasil di-assign" }
+          "200": {
+            "description": "Lead berhasil di-assign"
+          }
         }
       }
     },
     "/api/admin/leads/{id}/notes": {
       "post": {
-        "tags": ["Admin Leads"],
+        "tags": [
+          "Admin Leads"
+        ],
         "summary": "Add lead note",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Catatan lead berhasil ditambahkan" }
+          "200": {
+            "description": "Catatan lead berhasil ditambahkan"
+          }
         }
       }
     },
     "/api/admin/media-assets": {
       "get": {
-        "tags": ["Admin Media"],
+        "tags": [
+          "Admin Media"
+        ],
         "summary": "List media assets",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
-          "200": { "description": "Media assets berhasil diambil" }
+          "200": {
+            "description": "Media assets berhasil diambil"
+          }
         }
       },
       "post": {
-        "tags": ["Admin Media"],
+        "tags": [
+          "Admin Media"
+        ],
         "summary": "Upload media asset via base64 payload",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
-          "201": { "description": "Media asset berhasil diupload" }
+          "201": {
+            "description": "Media asset berhasil diupload"
+          }
         }
       }
     },
     "/api/admin/media-assets/{id}": {
       "get": {
-        "tags": ["Admin Media"],
+        "tags": [
+          "Admin Media"
+        ],
         "summary": "Get media asset detail",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Media asset berhasil diambil" }
+          "200": {
+            "description": "Media asset berhasil diambil"
+          }
         }
       },
       "patch": {
-        "tags": ["Admin Media"],
+        "tags": [
+          "Admin Media"
+        ],
         "summary": "Update media metadata",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Media asset berhasil diupdate" }
+          "200": {
+            "description": "Media asset berhasil diupdate"
+          }
         }
       },
       "delete": {
-        "tags": ["Admin Media"],
+        "tags": [
+          "Admin Media"
+        ],
         "summary": "Delete media asset",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Media asset berhasil dihapus" }
+          "200": {
+            "description": "Media asset berhasil dihapus"
+          }
         }
       }
     },
     "/api/admin/notification-settings": {
       "get": {
-        "tags": ["Admin Notifications"],
+        "tags": [
+          "Admin Notifications"
+        ],
         "summary": "List notification settings",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
-          "200": { "description": "Notification settings berhasil diambil" }
+          "200": {
+            "description": "Notification settings berhasil diambil"
+          }
         }
       }
     },
     "/api/admin/notification-settings/{channel}/{event}": {
       "put": {
-        "tags": ["Admin Notifications"],
+        "tags": [
+          "Admin Notifications"
+        ],
         "summary": "Upsert notification setting",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "channel", "in": "path", "required": true, "schema": { "type": "string", "enum": ["email", "webhook"] } },
-          { "name": "event", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "channel",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "email",
+                "webhook"
+              ]
+            }
+          },
+          {
+            "name": "event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Notification setting berhasil diupdate" }
+          "200": {
+            "description": "Notification setting berhasil diupdate"
+          }
         }
       }
     },
     "/api/admin/audit-logs": {
       "get": {
-        "tags": ["Admin Audit Logs"],
+        "tags": [
+          "Admin Audit Logs"
+        ],
         "summary": "List audit logs",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
-          { "name": "module", "in": "query", "schema": { "type": "string" } },
-          { "name": "actorId", "in": "query", "schema": { "type": "integer" } },
-          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100 } }
+          {
+            "name": "module",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "actorId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Audit logs berhasil diambil" }
+          "200": {
+            "description": "Audit logs berhasil diambil"
+          }
         }
       }
     },
     "/api/admin/dashboard/summary": {
       "get": {
-        "tags": ["Admin Dashboard"],
+        "tags": [
+          "Admin Dashboard"
+        ],
         "summary": "Get dashboard summary",
-        "security": [{ "BearerAuth": [] }],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
-          "200": { "description": "Dashboard summary berhasil diambil" }
+          "200": {
+            "description": "Dashboard summary berhasil diambil"
+          }
+        }
+      }
+    },
+    "/api/public/industries": {
+      "get": {
+        "tags": [
+          "Public Industries"
+        ],
+        "summary": "List published industries",
+        "responses": {
+          "200": {
+            "description": "Daftar industri published"
+          }
+        }
+      }
+    },
+    "/api/public/industries/{slug}": {
+      "get": {
+        "tags": [
+          "Public Industries"
+        ],
+        "summary": "Get published industry",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail industri published"
+          }
+        }
+      }
+    },
+    "/api/admin/industries": {
+      "get": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "List industries",
+        "responses": {
+          "200": {
+            "description": "Daftar industri"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Create industry",
+        "responses": {
+          "201": {
+            "description": "Industri dibuat"
+          }
+        }
+      }
+    },
+    "/api/admin/industries/{id}": {
+      "patch": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Update industry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Industri diperbarui"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Delete industry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Industri dihapus"
+          }
+        }
+      }
+    },
+    "/api/admin/industries/{industryId}/solutions": {
+      "post": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Create industry solution",
+        "parameters": [
+          {
+            "name": "industryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Solusi dibuat"
+          }
+        }
+      }
+    },
+    "/api/admin/industries/{industryId}/solutions/{solutionId}": {
+      "patch": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Update industry solution",
+        "responses": {
+          "200": {
+            "description": "Solusi diperbarui"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Industries"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Delete industry solution",
+        "responses": {
+          "200": {
+            "description": "Solusi dihapus"
+          }
         }
       }
     }

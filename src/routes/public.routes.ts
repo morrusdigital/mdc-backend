@@ -54,6 +54,7 @@ import {
   academyProgramsPublicRoutes,
 } from "../modules/academy-programs/academy-programs.routes";
 import { academyEventsPublicRoutes } from "../modules/academy-events/academy-events.routes";
+import { publicIndustriesRoutes } from "../modules/industries/industries.routes";
 
 const router = Router();
 
@@ -132,5 +133,6 @@ router.get(
 );
 router.use("/", academyProgramsPublicRoutes);
 router.use("/", academyEventsPublicRoutes);
+router.use("/", publicIndustriesRoutes);
 
 export default router;

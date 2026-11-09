@@ -231,6 +231,43 @@ model Service {
   @@map("services")
 }
 
+model Industry {
+  id             String             @id @default(uuid()) @db.Uuid
+  name           String             @db.VarChar(255)
+  slug           String             @unique @db.VarChar(255)
+  summary        String             @db.Text
+  hero           String?            @db.Text
+  coverImage     String?            @map("cover_image") @db.Text
+  sortOrder      Int                @default(0) @map("sort_order")
+  isPublished    Boolean            @default(false) @map("is_published")
+  seoTitle       String?            @map("seo_title") @db.VarChar(255)
+  seoDescription String?            @map("seo_description") @db.Text
+  seoKeywords    Json?              @map("seo_keywords")
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
+  solutions      IndustrySolution[]
+
+  @@index([isPublished, sortOrder])
+  @@map("industries")
+}
+
+model IndustrySolution {
+  id          String   @id @default(uuid()) @db.Uuid
+  industryId  String   @map("industry_id") @db.Uuid
+  name        String   @db.VarChar(255)
+  type        String   @db.VarChar(50)
+  description String   @db.Text
+  benefits    Json
+  sortOrder   Int      @default(0) @map("sort_order")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  industry    Industry @relation(fields: [industryId], references: [id], onDelete: Cascade)
+
+  @@index([industryId, isActive, sortOrder])
+  @@map("industry_solutions")
+}
+
 model AcademyProgram {
   id               String   @id @default(uuid()) @db.Uuid
   slug             String   @unique @db.VarChar(255)

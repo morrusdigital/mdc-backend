@@ -37,6 +37,7 @@ import auditLogsRoutes from "../modules/audit-logs/audit-logs.routes";
 import dashboardRoutes from "../modules/dashboard/dashboard.routes";
 import { academyProgramsAdminRoutes } from "../modules/academy-programs/academy-programs.routes";
 import { academyEventsAdminRoutes } from "../modules/academy-events/academy-events.routes";
+import { adminIndustriesRoutes } from "../modules/industries/industries.routes";
 import {
   requireAuth,
   requirePermission,
@@ -66,6 +67,7 @@ router.use("/", auditLogsRoutes);
 router.use("/", dashboardRoutes);
 router.use("/", academyProgramsAdminRoutes);
 router.use("/", academyEventsAdminRoutes);
+router.use("/", adminIndustriesRoutes);
 
 router.get(
   "/projects",

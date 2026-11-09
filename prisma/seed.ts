@@ -32,6 +32,10 @@ const permissionDefinitions = [
   ["services.create", "Services Create", "Create services"],
   ["services.update", "Services Update", "Update services"],
   ["services.delete", "Services Delete", "Delete services"],
+  ["industries.read", "Industries Read", "Read industries"],
+  ["industries.create", "Industries Create", "Create industries"],
+  ["industries.update", "Industries Update", "Update industries"],
+  ["industries.delete", "Industries Delete", "Delete industries"],
   ["academy_programs.read", "Academy Programs Read", "Read academy programs"],
   ["academy_programs.create", "Academy Programs Create", "Create academy programs"],
   ["academy_programs.update", "Academy Programs Update", "Update academy programs"],
@@ -133,6 +137,7 @@ const roleDefinitions = {
        "services.read",
        "services.create",
        "services.update",
+       "industries.read", "industries.create", "industries.update", "industries.delete",
        "academy_programs.read",
        "academy_programs.create",
        "academy_programs.update",
@@ -433,6 +438,17 @@ const notificationSettingDefinitions = [
       secret: "",
     },
   },
+] as const;
+
+const industryDefinitions = [
+  ["Kesehatan", "kesehatan", "Solusi digital terintegrasi untuk klinik, rumah sakit, dan layanan kesehatan.", ["Website klinik", "Appointment & antrian", "Manajemen pasien", "Farmasi & stok", "Dashboard operasional"]],
+  ["Konstruksi", "konstruksi", "Digitalisasi proyek konstruksi dari promosi hingga pengawasan lapangan.", ["Website & portofolio", "Monitoring progres", "Laporan lapangan", "Dokumen proyek", "Dashboard proyek"]],
+  ["Pendidikan", "pendidikan", "Platform digital untuk sekolah, kampus, lembaga kursus, dan institusi pendidikan.", ["Website & PPDB", "LMS", "Presensi akademik", "Portal siswa & orang tua", "Dashboard institusi"]],
+  ["Retail", "retail", "Solusi retail untuk mengelola katalog, transaksi, pelanggan, dan performa toko.", ["Website katalog", "Aplikasi kasir", "Manajemen stok", "Loyalty pelanggan"]],
+  ["F&B", "fnb", "Teknologi untuk mempercepat operasional restoran, kafe, dan bisnis kuliner.", ["Website menu & reservasi", "Aplikasi order", "POS & inventori", "Dashboard cabang"]],
+  ["Properti", "properti", "Pengalaman digital untuk memasarkan aset dan mengelola prospek properti.", ["Website listing", "Aplikasi sales", "CRM properti", "Dashboard marketing"]],
+  ["Manufaktur", "manufaktur", "Sistem terukur untuk operasi, produksi, inventori, dan pelaporan manufaktur.", ["Website perusahaan", "Monitoring produksi", "Manajemen gudang", "Quality control", "Dashboard operasional"]],
+  ["Logistik", "logistik", "Visibilitas pengiriman dan operasi logistik dalam satu ekosistem digital.", ["Website layanan", "Aplikasi tracking", "Manajemen armada", "Dashboard pengiriman", "Portal pelanggan"]],
 ] as const;
 
 const academyProgramDefinitions = [
@@ -841,6 +857,28 @@ async function seedAcademyEvents() {
   }
 }
 
+async function seedIndustries() {
+  for (const [index, [name, slug, summary, solutionNames]] of industryDefinitions.entries()) {
+    const industry = await prisma.industry.upsert({
+      where: { slug },
+      update: { name, summary, sortOrder: index, isPublished: true, seoTitle: `${name} | Solusi Industri MDC`, seoDescription: summary },
+      create: { name, slug, summary, sortOrder: index, isPublished: true, seoTitle: `${name} | Solusi Industri MDC`, seoDescription: summary },
+    });
+    await prisma.industrySolution.deleteMany({ where: { industryId: industry.id } });
+    await prisma.industrySolution.createMany({
+      data: solutionNames.map((solutionName, solutionIndex) => ({
+        industryId: industry.id,
+        name: solutionName,
+        type: solutionIndex === 0 ? "Website" : "Aplikasi/Sistem",
+        description: `${solutionName} yang disesuaikan dengan kebutuhan bisnis ${name.toLowerCase()}.`,
+        benefits: [`Alur kerja lebih rapi`, `Data lebih mudah dipantau`, `Siap dikembangkan bersama MDC`],
+        sortOrder: solutionIndex,
+        isActive: true,
+      })),
+    });
+  }
+}
+
 async function main() {
   await seedPermissions();
   await seedRoles();
@@ -849,6 +887,7 @@ async function main() {
   await seedNotificationSettings();
   await seedAcademyPrograms();
   await seedAcademyEvents();
+  await seedIndustries();
   await seedBootstrapAdmin();
 }
 
